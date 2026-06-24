@@ -1,4 +1,4 @@
-// Arogya Sattu Landing Page — JavaScript
+// RISE — the sattu | Landing Page JavaScript
 
 document.addEventListener('DOMContentLoaded', () => {
     initNavbar();
@@ -460,4 +460,4 @@ hoverGlowStyles.textContent = `
 `;
 document.head.appendChild(hoverGlowStyles);
 
-console.log('🌾 Arogya Sattu Landing Page initialized — Desi mein hai DUM!');
+console.log('🌾 RISE — the sattu | Ancient Grain. Relentless Rise.');

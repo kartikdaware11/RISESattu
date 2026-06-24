@@ -393,11 +393,22 @@ button {
 }
 
 .logo-hindi {
-    font-family: var(--font-hindi);
-    font-size: 14px;
-    font-weight: 600;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 500;
     color: var(--accent-primary);
     opacity: 0.8;
+    letter-spacing: 0.05em;
+    text-transform: lowercase;
+}
+
+.hero-tagline {
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--accent-primary);
+    margin-bottom: 20px;
+    font-style: italic;
+    opacity: 0.9;
 }
 
 .nav-links {
