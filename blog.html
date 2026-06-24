@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stop Drinking Sugar Water — RISE Sattu Blog</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* ── Blog layout ── */
+        .blog-page { max-width: 780px; margin: 0 auto; padding: 0 24px 80px; }
+        .blog-wide  { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+        /* ── Hero ── */
+        .blog-hero {
+            background: linear-gradient(160deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 72px 24px 56px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .blog-hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(184,117,30,0.1) 0%, transparent 65%);
+            pointer-events: none;
+        }
+        .blog-category {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 6px 18px;
+            background: var(--accent-subtle); border: 1px solid var(--border-accent);
+            border-radius: 100px; font-size: 11px; font-weight: 700;
+            letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-primary);
+            margin-bottom: 24px; position: relative;
+        }
+        .blog-hero h1 {
+            font-size: clamp(1.9rem, 4vw, 3rem);
+            font-weight: 900; color: var(--text-primary); line-height: 1.15;
+            max-width: 680px; margin: 0 auto 20px; position: relative;
+        }
+        .blog-hero .subtitle {
+            font-size: 1.1rem; color: var(--text-secondary); max-width: 540px;
+            margin: 0 auto 36px; line-height: 1.75; position: relative;
+        }
+        .blog-meta {
+            display: flex; align-items: center; justify-content: center; gap: 24px;
+            flex-wrap: wrap; font-size: 0.82rem; color: var(--text-tertiary);
+            font-weight: 500; position: relative;
+        }
+        .blog-meta span { display: flex; align-items: center; gap: 6px; }
+        .meta-dot { width: 4px; height: 4px; background: var(--text-muted); border-radius: 50%; }
+
+        /* ── Article body ── */
+        .blog-body { padding-top: 56px; }
+        .blog-body p {
+            font-size: 1.02rem; color: var(--text-secondary); line-height: 1.85;
+            margin-bottom: 24px;
+        }
+        .blog-body h2 {
+            font-size: 1.55rem; font-weight: 800; color: var(--text-primary);
+            margin: 48px 0 16px; line-height: 1.25;
+        }
+        .blog-body h3 {
+            font-size: 1.15rem; font-weight: 700; color: var(--text-primary);
+            margin: 32px 0 12px;
+        }
+
+        /* ── Pull quote ── */
+        .pull-quote {
+            margin: 40px 0; padding: 32px 36px;
+            border-left: 4px solid var(--accent-primary);
+            background: var(--accent-subtle);
+            border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+        }
+        .pull-quote p {
+            font-size: 1.2rem; font-weight: 600; color: var(--text-primary);
+            line-height: 1.6; margin-bottom: 8px; font-style: italic;
+        }
+        .pull-quote .attribution {
+            font-size: 0.8rem; color: var(--accent-primary); font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0;
+        }
+
+        /* ── Stat callout strip ── */
+        .stat-strip {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 0; margin: 40px 0;
+            background: var(--bg-card); border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm);
+        }
+        .stat-strip-cell {
+            padding: 28px 20px; text-align: center;
+            border-right: 1px solid var(--border-subtle);
+        }
+        .stat-strip-cell:last-child { border-right: none; }
+        .stat-strip-cell .ssv {
+            font-size: 2rem; font-weight: 900; color: var(--accent-primary);
+            display: block; line-height: 1;
+        }
+        .stat-strip-cell .ssl {
+            font-size: 0.78rem; color: var(--text-tertiary); margin-top: 6px;
+            font-weight: 600; letter-spacing: 0.05em;
+        }
+
+        /* ── Feature cards ── */
+        .feature-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 16px; margin: 32px 0;
+        }
+        .blog-feature-card {
+            background: var(--bg-card); border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg); padding: 24px 20px;
+            box-shadow: var(--shadow-sm);
+        }
+        .blog-feature-card .fc-icon {
+            font-size: 2rem; margin-bottom: 12px; display: block;
+        }
+        .blog-feature-card h4 {
+            font-size: 0.95rem; font-weight: 700; color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+        .blog-feature-card p {
+            font-size: 0.82rem; color: var(--text-secondary);
+            line-height: 1.6; margin-bottom: 0;
+        }
+
+        /* ── Nutrition box ── */
+        .nutrition-box {
+            background: linear-gradient(135deg, rgba(74,124,89,0.06), rgba(184,117,30,0.04));
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-xl); padding: 36px; margin: 40px 0;
+        }
+        .nutrition-box h3 {
+            font-size: 1rem; font-weight: 800; color: var(--text-primary);
+            text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 24px;
+            margin-top: 0;
+        }
+        .nutrition-grid {
+            display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;
+        }
+        .nutrition-cell { text-align: center; }
+        .nutrition-cell .nv {
+            font-size: 1.5rem; font-weight: 900; color: var(--green-primary);
+            display: block; line-height: 1;
+        }
+        .nutrition-cell .nl {
+            font-size: 0.75rem; color: var(--text-tertiary); margin-top: 4px;
+            font-weight: 600;
+        }
+        .nutrition-note {
+            margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-subtle);
+            font-size: 0.8rem; color: var(--text-tertiary); margin-bottom: 0;
+        }
+
+        /* ── Vs box ── */
+        .vs-box {
+            background: rgba(239,68,68,0.04); border: 1px solid rgba(239,68,68,0.12);
+            border-radius: var(--radius-xl); padding: 36px; margin: 40px 0;
+        }
+        .vs-box h3 { font-size: 1rem; font-weight: 800; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 20px; margin-top: 0; }
+        .vs-row {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 12px 0; border-bottom: 1px solid var(--border-subtle); font-size: 0.9rem;
+        }
+        .vs-row:last-child { border-bottom: none; }
+        .vs-label { font-weight: 600; color: var(--text-primary); }
+        .vs-pair { display: flex; gap: 16px; }
+        .vs-them { color: var(--error); font-weight: 700; }
+        .vs-us { color: var(--green-primary); font-weight: 700; }
+
+        /* ── Use cases ── */
+        .use-case-list { display: flex; flex-direction: column; gap: 16px; margin: 32px 0; }
+        .use-case-item {
+            display: flex; gap: 20px; align-items: flex-start;
+            background: var(--bg-card); border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg); padding: 20px 24px; box-shadow: var(--shadow-sm);
+        }
+        .use-case-item .uc-icon { font-size: 2rem; flex-shrink: 0; margin-top: 2px; }
+        .use-case-item h4 { font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+        .use-case-item p { font-size: 0.87rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 0; }
+
+        /* ── Flavors ── */
+        .flavor-trio {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 32px 0;
+        }
+        .flavor-card {
+            padding: 24px; border-radius: var(--radius-lg); text-align: center;
+            border: 1px solid var(--border-subtle); box-shadow: var(--shadow-sm);
+        }
+        .flavor-card .fl-icon { font-size: 3rem; margin-bottom: 12px; }
+        .flavor-card h4 { font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
+        .flavor-card p { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0; }
+        .flavor-plain  { background: linear-gradient(135deg, rgba(184,117,30,0.06), rgba(212,146,11,0.03)); }
+        .flavor-jeera  { background: linear-gradient(135deg, rgba(74,124,89,0.07), rgba(91,155,107,0.03)); }
+        .flavor-rose   { background: linear-gradient(135deg, rgba(236,72,153,0.06), rgba(249,168,212,0.03)); }
+
+        /* ── Testimonial ── */
+        .testimonial-block {
+            background: var(--bg-secondary); border-radius: var(--radius-xl);
+            padding: 36px; margin: 40px 0; text-align: center;
+        }
+        .testimonial-block .stars { font-size: 1.2rem; margin-bottom: 16px; }
+        .testimonial-block blockquote {
+            font-size: 1.1rem; font-weight: 600; color: var(--text-primary);
+            line-height: 1.65; font-style: italic; max-width: 520px; margin: 0 auto 20px;
+        }
+        .testimonial-block .attrib {
+            font-size: 0.85rem; color: var(--text-tertiary); font-weight: 600;
+        }
+
+        /* ── CTA box ── */
+        .blog-cta {
+            background: linear-gradient(135deg, var(--text-primary) 0%, #1a0f08 100%);
+            border-radius: var(--radius-xl); padding: 48px 40px;
+            text-align: center; margin: 48px 0 0;
+            position: relative; overflow: hidden;
+        }
+        .blog-cta::before {
+            content: ''; position: absolute; top: -60px; right: -60px;
+            width: 240px; height: 240px;
+            background: radial-gradient(circle, rgba(184,117,30,0.2), transparent 65%);
+            pointer-events: none;
+        }
+        .blog-cta h2 { font-size: 1.8rem; font-weight: 900; color: #fff; margin-bottom: 12px; position: relative; }
+        .blog-cta p { font-size: 0.95rem; color: rgba(255,255,255,0.65); max-width: 420px; margin: 0 auto 28px; line-height: 1.7; position: relative; }
+        .blog-cta a.cta-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 16px 32px; background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: #fff; font-weight: 700; font-size: 0.95rem; border-radius: var(--radius-md);
+            text-decoration: none; position: relative;
+            transition: var(--transition-base);
+        }
+        .blog-cta a.cta-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+
+        /* ── Share row ── */
+        .share-row {
+            display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+            padding: 32px 0; border-top: 1px solid var(--border-subtle);
+            margin-top: 48px;
+        }
+        .share-row span { font-size: 0.85rem; font-weight: 700; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.1em; }
+        .share-btn {
+            padding: 8px 20px; border: 1px solid var(--border-medium);
+            border-radius: 100px; font-size: 0.82rem; font-weight: 600;
+            color: var(--text-secondary); cursor: pointer; background: none;
+            transition: var(--transition-base);
+        }
+        .share-btn:hover { border-color: var(--accent-primary); color: var(--accent-primary); }
+
+        /* ── Print ── */
+        @media print {
+            .collateral-nav, .download-btn, .share-row, .blog-cta a { display: none !important; }
+            body { background: #fff !important; }
+            @page { margin: 14mm; }
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 720px) {
+            .stat-strip { grid-template-columns: repeat(2, 1fr); }
+            .stat-strip-cell:nth-child(2) { border-right: none; }
+            .feature-grid, .flavor-trio { grid-template-columns: 1fr; }
+            .nutrition-grid { grid-template-columns: repeat(3, 1fr); }
+            .blog-hero h1 { font-size: 1.7rem; }
+            .blog-cta { padding: 36px 24px; }
+        }
+        @media (max-width: 480px) {
+            .nutrition-grid { grid-template-columns: repeat(2, 1fr); }
+            .vs-pair { flex-direction: column; gap: 4px; }
+        }
+    </style>
+</head>
+<body class="collateral-page">
+
+    <nav class="collateral-nav">
+        <a href="index.html" class="logo">
+            <span class="logo-icon">🌾</span>
+            <span class="logo-text">RISE</span>
+            <span class="logo-hindi">the sattu</span>
+        </a>
+        <div class="collateral-nav-actions">
+            <a href="artifacts.html" class="back-link">← All Artifacts</a>
+            <button class="download-btn" onclick="window.print()">⬇ Download PDF</button>
+        </div>
+    </nav>
+
+    <!-- ── HERO ── -->
+    <header class="blog-hero">
+        <span class="blog-category">✍️ Brand Blog · Health & Nutrition</span>
+        <h1>Stop Drinking Sugar Water.<br>Here's What India Ran on for 2,000 Years.</h1>
+        <p class="subtitle">Your 4 PM cola isn't refreshing you — it's crashing you. The answer has been sitting in your dadi's kitchen since before electricity existed.</p>
+        <div class="blog-meta">
+            <span>🌾 By the RISE Team</span>
+            <span class="meta-dot"></span>
+            <span>📅 June 2025</span>
+            <span class="meta-dot"></span>
+            <span>⏱ 6 min read</span>
+            <span class="meta-dot"></span>
+            <span>🏷 Nutrition · Sattu · Ancient Grains</span>
+        </div>
+    </header>
+
+    <div class="blog-page">
+        <article class="blog-body">
+
+            <p>It's 4 PM on a Tuesday. You're three meetings deep, your screen hasn't changed in two hours, and someone in the office just cracked open a can of Coke. The sound alone pulls you in. Before you know it, you've taken a sip — then another — and 15 minutes later, you feel exactly the same. Except now you've just consumed <strong>33 grams of refined sugar</strong> and precisely zero grams of anything useful.</p>
+
+            <p>We're not here to guilt-trip you. We're here to tell you there's a better 4 PM drink — one that's been hiding in plain sight for over two thousand years. It's called <strong>sattu</strong>, and RISE exists to put it in your hands.</p>
+
+            <div class="pull-quote">
+                <p>"Sattu was the fuel of Mughal soldiers, Bihar's farmers, and marathon walkers across the Gangetic plains. They didn't have protein shakes. They didn't need them."</p>
+                <span class="attribution">— RISE Team · Brand Story</span>
+            </div>
+
+            <h2>What Is Sattu — and Why Has Everyone Forgotten It?</h2>
+
+            <p>Sattu is roasted gram flour — <em>chana dal</em> dry-roasted and stone-ground into a fine powder. That single process unlocks something remarkable: a nutritional profile that rivals the most expensive supplements on the market, at a fraction of the cost and none of the chemicals.</p>
+
+            <p>For millennia, sattu was the daily drink of farmers, soldiers, and laborers across Bihar, Uttar Pradesh, and Jharkhand. Mixed with water, a pinch of salt, and a squeeze of lemon, it kept people going through brutal summer heat and back-breaking field work. It's cooling, filling, and deeply satisfying — the original Indian protein shake, before that was even a category.</p>
+
+            <p>Then packaged food arrived. Bright cans, slick branding, and aggressive marketing pushed sattu to the back of the pantry. A generation grew up thinking "healthy drinks" meant Bournvita and "refreshment" meant cola. We lost something ancient. RISE is here to take it back.</p>
+
+            <div class="stat-strip">
+                <div class="stat-strip-cell"><span class="ssv">2,000</span><span class="ssl">Years of heritage</span></div>
+                <div class="stat-strip-cell"><span class="ssv">22g</span><span class="ssl">Protein per 100g</span></div>
+                <div class="stat-strip-cell"><span class="ssv">0g</span><span class="ssl">Refined sugar</span></div>
+                <div class="stat-strip-cell"><span class="ssv">30 sec</span><span class="ssl">Ready to drink</span></div>
+            </div>
+
+            <h2>Why RISE Is Different From Everything Else on the Shelf</h2>
+
+            <p>We didn't just grind some chana and stick it in a pouch. We spent months perfecting the roast profile, sourcing organic certified grain, building flavors that Indian palates actually crave, and making the format so easy it removes every excuse not to drink it.</p>
+
+            <p>Here's what makes RISE stand apart:</p>
+
+            <div class="feature-grid">
+                <div class="blog-feature-card">
+                    <span class="fc-icon">🏅</span>
+                    <h4>India Organic Certified</h4>
+                    <p>FSSAI + India Organic certified. We are the only certified organic sattu drink brand in the country. No compromises on sourcing.</p>
+                </div>
+                <div class="blog-feature-card">
+                    <span class="fc-icon">💪</span>
+                    <h4>Real Protein. Not Hype.</h4>
+                    <p>8–10g plant protein per 30g serving. No whey, no isolates, no marketing fluff — just the natural protein density of roasted chickpea.</p>
+                </div>
+                <div class="blog-feature-card">
+                    <span class="fc-icon">🌿</span>
+                    <h4>Zero Sugar. Zero Junk.</h4>
+                    <p>No refined sugar. No artificial colors. No preservatives. Naturally cooling and gentle on your gut — unlike most protein supplements.</p>
+                </div>
+                <div class="blog-feature-card">
+                    <span class="fc-icon">⚡</span>
+                    <h4>Sustained Energy</h4>
+                    <p>Complex carbohydrates + protein + fiber = slow-release energy. No spike, no crash. Just steady fuel for the rest of your afternoon.</p>
+                </div>
+                <div class="blog-feature-card">
+                    <span class="fc-icon">💰</span>
+                    <h4>Affordable Every Day</h4>
+                    <p>₹30 per sachet. That's 70% cheaper than a cold-pressed juice and 60% cheaper than a protein shake — for better nutrition.</p>
+                </div>
+                <div class="blog-feature-card">
+                    <span class="fc-icon">🎒</span>
+                    <h4>Anywhere. 30 Seconds.</h4>
+                    <p>Tear the sachet, pour into 200ml cold water, shake or stir. Done. No blender, no refrigeration, no preparation required.</p>
+                </div>
+            </div>
+
+            <h2>The Numbers Don't Lie</h2>
+
+            <p>We know "healthy" is a word that gets thrown around too casually. So here's the actual nutrition breakdown for a single 30g RISE serving — the kind of transparency we believe every food brand owes its customers:</p>
+
+            <div class="nutrition-box">
+                <h3>🌾 RISE Sattu — Nutrition per 30g Serving</h3>
+                <div class="nutrition-grid">
+                    <div class="nutrition-cell"><span class="nv">8–10g</span><span class="nl">Protein</span></div>
+                    <div class="nutrition-cell"><span class="nv">4g</span><span class="nl">Dietary Fiber</span></div>
+                    <div class="nutrition-cell"><span class="nv">110</span><span class="nl">Calories (kcal)</span></div>
+                    <div class="nutrition-cell"><span class="nv">0g</span><span class="nl">Refined Sugar</span></div>
+                    <div class="nutrition-cell"><span class="nv">15%</span><span class="nl">Iron RDA</span></div>
+                </div>
+                <p class="nutrition-note">Per 30g serving mixed with 200ml cold water. Naturally cooling. Zero preservatives. Zero artificial colors. FSSAI + India Organic certified.</p>
+            </div>
+
+            <p>Compare that to what you're probably drinking right now:</p>
+
+            <div class="vs-box">
+                <h3>RISE vs. What You're Drinking Now</h3>
+                <div class="vs-row">
+                    <span class="vs-label">Protein</span>
+                    <div class="vs-pair">
+                        <span class="vs-them">Cola: 0g</span>
+                        <span class="vs-us">RISE: 9g ✓</span>
+                    </div>
+                </div>
+                <div class="vs-row">
+                    <span class="vs-label">Sugar</span>
+                    <div class="vs-pair">
+                        <span class="vs-them">Cola: 33g</span>
+                        <span class="vs-us">RISE: 0g ✓</span>
+                    </div>
+                </div>
+                <div class="vs-row">
+                    <span class="vs-label">Fiber</span>
+                    <div class="vs-pair">
+                        <span class="vs-them">Bournvita: ~1g</span>
+                        <span class="vs-us">RISE: 4g ✓</span>
+                    </div>
+                </div>
+                <div class="vs-row">
+                    <span class="vs-label">Price / Serving</span>
+                    <div class="vs-pair">
+                        <span class="vs-them">Protein Shake: ₹80–150</span>
+                        <span class="vs-us">RISE: ₹30 ✓</span>
+                    </div>
+                </div>
+                <div class="vs-row">
+                    <span class="vs-label">Certified Organic</span>
+                    <div class="vs-pair">
+                        <span class="vs-them">Most drinks: No</span>
+                        <span class="vs-us">RISE: Yes ✓</span>
+                    </div>
+                </div>
+            </div>
+
+            <h2>Three Flavors, One Mission</h2>
+
+            <p>Traditional sattu with a pinch of salt and lemon is perfect — if you grew up with it. We know most urban palates need a friendlier on-ramp. So we crafted three flavors that feel familiar and refreshing:</p>
+
+            <div class="flavor-trio">
+                <div class="flavor-card flavor-plain">
+                    <div class="fl-icon">🧂</div>
+                    <h4>Plain Salted</h4>
+                    <p>The original. Earthy, nutty, and grounding. A pinch of black salt, a hint of lemon. For the purist who knows what sattu is supposed to taste like.</p>
+                </div>
+                <div class="flavor-card flavor-jeera">
+                    <div class="fl-icon">🌿</div>
+                    <h4>Roasted Jeera</h4>
+                    <p>Smoky cumin notes balanced with a clean sattu base. Warm, digestive, and completely satisfying. The one coworkers ask you about.</p>
+                </div>
+                <div class="flavor-card flavor-rose">
+                    <div class="fl-icon">🌸</div>
+                    <h4>Rose Refresher</h4>
+                    <p>Subtle rose with a light sweetness — no added sugar, just natural floral notes. The crowd-pleaser. Cold water + ice = perfect summer drink.</p>
+                </div>
+            </div>
+
+            <h2>When Should You Drink RISE?</h2>
+
+            <p>The honest answer: anytime. But here are the four moments we hear about most from our customers:</p>
+
+            <div class="use-case-list">
+                <div class="use-case-item">
+                    <span class="uc-icon">🌅</span>
+                    <div>
+                        <h4>The 7 AM Breakfast You Never Have Time For</h4>
+                        <p>You're out the door in 10 minutes and skipping breakfast again. Instead, toss a sachet in your bag, mix it at the office, and walk in with 9g of protein already in your system. Breakfast done in 30 seconds, no dishes.</p>
+                    </div>
+                </div>
+                <div class="use-case-item">
+                    <span class="uc-icon">⚡</span>
+                    <div>
+                        <h4>The 4 PM Sugar Crash You're Tired of Having</h4>
+                        <p>Every afternoon, the body wants energy. The wrong choice (cola, biscuits, fried snacks) gives you a 20-minute spike and a 2-hour slump. RISE gives you sustained release — still alert at 6 PM, without the crash.</p>
+                    </div>
+                </div>
+                <div class="use-case-item">
+                    <span class="uc-icon">🏋️</span>
+                    <div>
+                        <h4>Post-Workout Recovery Without the Bloat</h4>
+                        <p>Plant protein without whey means no bloating, no heaviness, no chalky aftertaste. Mix cold, drink fast, feel recovered. Athletes and gym-goers have been loving this use case more than anyone expected.</p>
+                    </div>
+                </div>
+                <div class="use-case-item">
+                    <span class="uc-icon">🌞</span>
+                    <div>
+                        <h4>Summer Heat When Nothing Else Helps</h4>
+                        <p>Sattu is naturally cooling — that's not a health claim, that's traditional wisdom backed by centuries of summer use across the subcontinent. On a 40°C Bengaluru day, a cold glass of rose sattu is genuinely restorative.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-block">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <blockquote>"I replaced my afternoon chai and biscuit habit with RISE Jeera. Three weeks in, I'm less foggy after lunch and I've stopped needing that second coffee. Didn't expect that."</blockquote>
+                <span class="attrib">— Priya S., Product Manager, Bengaluru</span>
+            </div>
+
+            <h2>The Bigger Picture: Why This Matters</h2>
+
+            <p>India has 101 million diabetics. The average urban professional consumes over 70 grams of hidden sugar a day — from drinks they think are healthy. The health drinks market sells products with more sugar per serving than a chocolate bar.</p>
+
+            <p>We started RISE because we believe India already has the answer to its nutrition crisis. It's not imported whey protein or Japanese collagen drinks. It's a roasted chickpea that our grandmothers never stopped believing in.</p>
+
+            <p>Sattu isn't a wellness trend. It isn't a fad. It's the most honest, complete, affordable health food India has ever produced — and it's finally getting the branding it deserves.</p>
+
+            <div class="pull-quote">
+                <p>"Ancient grain. Relentless rise. We didn't invent anything new — we just stopped letting the best drink in India be forgotten."</p>
+                <span class="attribution">— RISE — the sattu · Brand Philosophy</span>
+            </div>
+
+            <div class="blog-cta">
+                <h2>Ready to make the switch?</h2>
+                <p>Try RISE for 7 days. Replace one sugary drink a day. See how different your afternoons feel. We're confident you'll never go back.</p>
+                <a href="index.html#order" class="cta-btn">Order RISE Now →</a>
+            </div>
+
+            <div class="share-row">
+                <span>Share this</span>
+                <button class="share-btn" onclick="navigator.share ? navigator.share({title:'RISE Sattu Blog', url: window.location.href}) : alert('Copy the URL to share!')">🔗 Copy Link</button>
+                <button class="share-btn" onclick="window.open('https://wa.me/?text=Stop drinking sugar water. Read this: ' + window.location.href)">💬 WhatsApp</button>
+                <button class="share-btn" onclick="window.open('https://www.linkedin.com/sharing/share-offsite/?url=' + window.location.href)">💼 LinkedIn</button>
+            </div>
+
+        </article>
+    </div>
+
+    <footer class="collateral-footer">
+        <p>🌾 RISE — the sattu &nbsp;·&nbsp; Ancient Grain. Relentless Rise.</p>
+        <p style="margin-top:8px;">© 2025 RISE — the sattu. &nbsp;|&nbsp; <a href="artifacts.html" style="color:var(--accent-primary);">← All Artifacts</a></p>
+    </footer>
+
+</body>
+</html>
