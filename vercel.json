@@ -15,7 +15,8 @@
     { "src": "infographic.html", "use": "@vercel/static" },
     { "src": "blog.html", "use": "@vercel/static" },
     { "src": "roi-calculator.html", "use": "@vercel/static" },
-    { "src": "channel-flow.html", "use": "@vercel/static" }
+    { "src": "channel-flow.html", "use": "@vercel/static" },
+    { "src": "bmc.html", "use": "@vercel/static" }
   ],
   "routes": [
     { "handle": "filesystem" },
