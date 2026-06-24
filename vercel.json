@@ -10,7 +10,8 @@
     { "src": "brochure.html", "use": "@vercel/static" },
     { "src": "partner.html", "use": "@vercel/static" },
     { "src": "pitch.html", "use": "@vercel/static" },
-    { "src": "compare.html", "use": "@vercel/static" }
+    { "src": "compare.html", "use": "@vercel/static" },
+    { "src": "artifacts.html", "use": "@vercel/static" }
   ],
   "routes": [
     { "handle": "filesystem" },

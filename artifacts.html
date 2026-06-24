@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RISE — the sattu | Marketing Artifacts</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .artifacts-hero {
+            padding: 72px 0 56px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .artifacts-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 70% 55% at 50% 0%, rgba(184,117,30,0.1) 0%, transparent 65%);
+            pointer-events: none;
+        }
+        .artifacts-hero .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: var(--accent-subtle);
+            border: 1px solid var(--border-accent);
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent-primary);
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .artifacts-hero h1 {
+            font-size: clamp(2rem, 4.5vw, 3rem);
+            font-weight: 800;
+            color: var(--text-primary);
+            line-height: 1.15;
+            margin-bottom: 14px;
+            position: relative;
+        }
+        .artifacts-hero p {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            max-width: 520px;
+            margin: 0 auto;
+            line-height: 1.7;
+            position: relative;
+        }
+
+        /* Matrix Grid */
+        .artifacts-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            padding-bottom: 80px;
+        }
+
+        .artifact-tile {
+            position: relative;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .artifact-tile:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--border-accent);
+        }
+
+        .artifact-tile:hover .tile-arrow {
+            transform: translateX(4px);
+        }
+
+        /* Top accent bar — unique per tile */
+        .artifact-tile::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+        }
+        .tile-brochure::before    { background: linear-gradient(90deg, #B8751E, #D4920B); }
+        .tile-sales::before       { background: linear-gradient(90deg, #4A7C59, #5B9B6B); }
+        .tile-partner::before     { background: linear-gradient(90deg, #7C4ABD, #9B6BD4); }
+        .tile-pitch::before       { background: linear-gradient(90deg, #1a0f08, #B8751E); }
+        .tile-compare::before     { background: linear-gradient(90deg, #ef4444, #f97316); }
+
+        .tile-visual {
+            height: 172px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .tile-brochure  .tile-visual { background: linear-gradient(135deg, rgba(184,117,30,0.1), rgba(212,146,11,0.06)); }
+        .tile-sales     .tile-visual { background: linear-gradient(135deg, rgba(74,124,89,0.1), rgba(91,155,107,0.06)); }
+        .tile-partner   .tile-visual { background: linear-gradient(135deg, rgba(124,74,189,0.1), rgba(155,107,212,0.06)); }
+        .tile-pitch     .tile-visual { background: linear-gradient(135deg, rgba(26,15,8,0.9), rgba(44,24,16,0.95)); }
+        .tile-compare   .tile-visual { background: linear-gradient(135deg, rgba(239,68,68,0.08), rgba(249,115,22,0.06)); }
+
+        .tile-pitch .tile-visual { color: #E6A821; }
+
+        .tile-tag {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .tile-brochure .tile-tag  { background: rgba(184,117,30,0.15); color: #B8751E; border: 1px solid rgba(184,117,30,0.25); }
+        .tile-sales .tile-tag     { background: rgba(74,124,89,0.15); color: #4A7C59; border: 1px solid rgba(74,124,89,0.25); }
+        .tile-partner .tile-tag   { background: rgba(124,74,189,0.15); color: #7C4ABD; border: 1px solid rgba(124,74,189,0.25); }
+        .tile-pitch .tile-tag     { background: rgba(230,168,33,0.15); color: #E6A821; border: 1px solid rgba(230,168,33,0.25); }
+        .tile-compare .tile-tag   { background: rgba(239,68,68,0.1); color: #ef4444; border: 1px solid rgba(239,68,68,0.2); }
+
+        .tile-body {
+            padding: 24px 28px 28px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tile-body h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .tile-body p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            flex: 1;
+            margin-bottom: 20px;
+        }
+
+        .tile-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .tile-audience {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-tertiary);
+        }
+
+        .tile-arrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent-primary);
+            transition: transform 0.2s ease;
+        }
+
+        /* Wide tile for brochure — spans 2 columns */
+        .tile-wide {
+            grid-column: span 2;
+        }
+        .tile-wide .tile-visual {
+            height: 200px;
+        }
+
+        @media (max-width: 900px) {
+            .artifacts-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .tile-wide { grid-column: span 2; }
+        }
+
+        @media (max-width: 580px) {
+            .artifacts-grid {
+                grid-template-columns: 1fr;
+            }
+            .tile-wide { grid-column: span 1; }
+        }
+    </style>
+</head>
+<body class="collateral-page">
+
+    <nav class="collateral-nav">
+        <a href="index.html" class="logo">
+            <span class="logo-icon">🌾</span>
+            <span class="logo-text">RISE</span>
+            <span class="logo-hindi">the sattu</span>
+        </a>
+        <div class="collateral-nav-actions">
+            <a href="index.html" class="back-link">← Back to main site</a>
+        </div>
+    </nav>
+
+    <main>
+        <section class="artifacts-hero">
+            <div class="container">
+                <div class="eyebrow">📁 Marketing Artifacts</div>
+                <h1>Everything you need to<br><span class="gradient-text">spread the RISE story.</span></h1>
+                <p>All marketing materials in one place — click any tile to open the full page. Each one has a Download PDF button inside.</p>
+            </div>
+        </section>
+
+        <section style="padding-bottom: 0;">
+            <div class="container">
+                <div class="artifacts-grid">
+
+                    <!-- Brochure — wide tile -->
+                    <a href="brochure.html" class="artifact-tile tile-brochure tile-wide">
+                        <div class="tile-visual">
+                            <span>📖</span>
+                            <span class="tile-tag">Consumer</span>
+                        </div>
+                        <div class="tile-body">
+                            <h2>Digital Brochure</h2>
+                            <p>The complete brand story — from 2,000 years of sattu heritage to RISE's modern vision. All 3 flavors, nutrition facts, how-to-use steps, and a testimonial. Share via WhatsApp or email.</p>
+                            <div class="tile-meta">
+                                <span class="tile-audience">For: Consumers</span>
+                                <span class="tile-arrow">Open Brochure →</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Sales Sheet -->
+                    <a href="sales-sheet.html" class="artifact-tile tile-sales">
+                        <div class="tile-visual">
+                            <span>📊</span>
+                            <span class="tile-tag">B2B</span>
+                        </div>
+                        <div class="tile-body">
+                            <h2>B2B Sales Sheet</h2>
+                            <p>One-page trade pitch for kirana stores, gyms, cafes, and corporate canteens. Includes wholesale pricing tiers, margins, and product grid.</p>
+                            <div class="tile-meta">
+                                <span class="tile-audience">For: Retailers & Trade</span>
+                                <span class="tile-arrow">Open Sheet →</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Compare -->
+                    <a href="compare.html" class="artifact-tile tile-compare">
+                        <div class="tile-visual">
+                            <span>⚖️</span>
+                            <span class="tile-tag">Education</span>
+                        </div>
+                        <div class="tile-body">
+                            <h2>RISE vs. The Rest</h2>
+                            <p>Head-to-head comparison of RISE against Bournvita, packaged juice, energy drinks, and protein shakes across protein, sugar, price, and heritage.</p>
+                            <div class="tile-meta">
+                                <span class="tile-audience">For: Skeptical Consumers</span>
+                                <span class="tile-arrow">See Comparison →</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Partner -->
+                    <a href="partner.html" class="artifact-tile tile-partner">
+                        <div class="tile-visual">
+                            <span>🤝</span>
+                            <span class="tile-tag">Partnership</span>
+                        </div>
+                        <div class="tile-body">
+                            <h2>Partner with RISE</h2>
+                            <p>Retailer and distributor partnership page with tier breakdown — Stockist, Distributor, Ambassador — plus onboarding steps and an inquiry form.</p>
+                            <div class="tile-meta">
+                                <span class="tile-audience">For: Distributors</span>
+                                <span class="tile-arrow">Become a Partner →</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Pitch -->
+                    <a href="pitch.html" class="artifact-tile tile-pitch">
+                        <div class="tile-visual">
+                            <span>🚀</span>
+                            <span class="tile-tag">Confidential</span>
+                        </div>
+                        <div class="tile-body">
+                            <h2>Investor Pitch</h2>
+                            <p>Seed round one-pager covering problem, solution, market size (₹50K Cr), traction, and use of funds. Dark-themed, print-ready for pitch meetings.</p>
+                            <div class="tile-meta">
+                                <span class="tile-audience">For: Investors</span>
+                                <span class="tile-arrow">View Pitch →</span>
+                            </div>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="collateral-footer">
+        <p>🌾 RISE — the sattu &nbsp;·&nbsp; Ancient Grain. Relentless Rise.</p>
+        <p style="margin-top:8px;">© 2025 RISE — the sattu. &nbsp;|&nbsp; <a href="index.html" style="color:var(--accent-primary);">Back to main site</a></p>
+    </footer>
+
+</body>
+</html>

@@ -112,6 +112,7 @@ function initMobileMenu() {
             <a href="#how-it-works">How It Works</a>
             <a href="#testimonials">Testimonials</a>
             <a href="#faq">FAQ</a>
+            <a href="artifacts.html">Artifacts</a>
             <a href="#order" class="btn btn-primary">Order Now</a>
         </div>
     `;
