@@ -113,6 +113,7 @@ function initMobileMenu() {
             <a href="#testimonials">Testimonials</a>
             <a href="#faq">FAQ</a>
             <a href="artifacts.html">Artifacts</a>
+            <a href="roi-calculator.html" style="font-weight:700;color:var(--accent-primary);">🧮 ROI Calculator</a>
             <a href="#order" class="btn btn-primary">Order Now</a>
         </div>
     `;

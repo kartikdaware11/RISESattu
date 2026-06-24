@@ -353,6 +353,48 @@
         </section>
     </main>
 
+    <!-- ROI Calculator callout — separate from artifact tiles -->
+    <section style="padding: 0 40px 64px; max-width:1080px; margin:0 auto;">
+        <div style="
+            background: linear-gradient(135deg, #1a0f08 0%, #2c1810 60%, #0f1f12 100%);
+            border-radius: var(--radius-xl);
+            padding: 48px 48px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 32px;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        ">
+            <div style="position:absolute;top:-40px;right:120px;width:200px;height:200px;background:radial-gradient(circle,rgba(184,117,30,0.2),transparent 65%);pointer-events:none;"></div>
+            <div style="position:relative;">
+                <div style="display:inline-flex;align-items:center;gap:8px;padding:6px 16px;background:rgba(184,117,30,0.15);border:1px solid rgba(184,117,30,0.3);border-radius:100px;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#E6A821;margin-bottom:16px;">
+                    🧮 Interactive Tool
+                </div>
+                <h2 style="font-size:clamp(1.4rem,3vw,2rem);font-weight:900;color:#fff;margin-bottom:10px;line-height:1.2;">
+                    What's your unhealthy drink habit <span style="color:#E6A821;">really costing you?</span>
+                </h2>
+                <p style="font-size:0.95rem;color:rgba(255,255,255,0.6);max-width:480px;line-height:1.7;margin-bottom:0;">
+                    Our ROI Calculator has 3 modes — Personal savings, Corporate wellness ROI, and Retailer margin estimator. Move sliders, get instant results. Takes 30 seconds.
+                </p>
+            </div>
+            <div style="flex-shrink:0;text-align:center;position:relative;">
+                <a href="roi-calculator.html" style="
+                    display:inline-flex;align-items:center;gap:10px;
+                    padding:18px 32px;
+                    background:linear-gradient(135deg,var(--accent-primary),var(--accent-secondary));
+                    color:#fff;font-weight:800;font-size:1rem;
+                    border-radius:var(--radius-md);text-decoration:none;
+                    white-space:nowrap;box-shadow:0 8px 32px rgba(184,117,30,0.35);
+                    transition:transform 0.2s,box-shadow 0.2s;
+                " onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='none'">
+                    Try the Calculator →
+                </a>
+                <div style="margin-top:10px;font-size:0.75rem;color:rgba(255,255,255,0.3);">Free · No signup · Instant results</div>
+            </div>
+        </div>
+    </section>
+
     <footer class="collateral-footer">
         <p>🌾 RISE — the sattu &nbsp;·&nbsp; Ancient Grain. Relentless Rise.</p>
         <p style="margin-top:8px;">© 2025 RISE — the sattu. &nbsp;|&nbsp; <a href="index.html" style="color:var(--accent-primary);">Back to main site</a></p>

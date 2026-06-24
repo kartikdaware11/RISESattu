@@ -13,7 +13,8 @@
     { "src": "compare.html", "use": "@vercel/static" },
     { "src": "artifacts.html", "use": "@vercel/static" },
     { "src": "infographic.html", "use": "@vercel/static" },
-    { "src": "blog.html", "use": "@vercel/static" }
+    { "src": "blog.html", "use": "@vercel/static" },
+    { "src": "roi-calculator.html", "use": "@vercel/static" }
   ],
   "routes": [
     { "handle": "filesystem" },

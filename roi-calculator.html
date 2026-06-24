@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RISE ROI Calculator — What Is Your Drink Habit Really Costing You?</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* ── Hero ── */
+        .roi-hero {
+            background: linear-gradient(160deg, #1a0f08 0%, #2c1810 55%, #0f1f12 100%);
+            padding: 64px 24px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .roi-hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse 55% 50% at 50% 30%, rgba(184,117,30,0.18) 0%, transparent 65%);
+            pointer-events: none;
+        }
+        .roi-hero .eyebrow {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 7px 20px;
+            background: rgba(184,117,30,0.15); border: 1px solid rgba(184,117,30,0.3);
+            border-radius: 100px; font-size: 12px; font-weight: 700;
+            letter-spacing: 0.12em; text-transform: uppercase; color: #E6A821;
+            margin-bottom: 24px; position: relative;
+        }
+        .roi-hero h1 {
+            font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 900;
+            color: #fff; line-height: 1.12; margin-bottom: 14px; position: relative;
+            max-width: 740px; margin-left: auto; margin-right: auto;
+        }
+        .roi-hero h1 span { color: #E6A821; }
+        .roi-hero p {
+            font-size: 1.05rem; color: rgba(255,255,255,0.6);
+            max-width: 500px; margin: 0 auto 40px; line-height: 1.75; position: relative;
+        }
+
+        /* ── Mode tabs ── */
+        .mode-tabs {
+            display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;
+            position: relative; margin-bottom: 0; padding-bottom: 0;
+        }
+        .mode-tab {
+            padding: 12px 28px; border-radius: var(--radius-md) var(--radius-md) 0 0;
+            font-size: 0.88rem; font-weight: 700; cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.12); border-bottom: none;
+            background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.55);
+            transition: all 0.25s ease; letter-spacing: 0.03em;
+        }
+        .mode-tab:hover { background: rgba(255,255,255,0.09); color: rgba(255,255,255,0.85); }
+        .mode-tab.active[data-mode="personal"]  { background: var(--bg-secondary); color: var(--accent-primary);  border-color: var(--border-accent); }
+        .mode-tab.active[data-mode="corporate"] { background: var(--bg-secondary); color: var(--green-primary);   border-color: rgba(74,124,89,0.3); }
+        .mode-tab.active[data-mode="retailer"]  { background: var(--bg-secondary); color: #7C4ABD;               border-color: rgba(124,74,189,0.3); }
+
+        /* ── Calculator body ── */
+        .roi-body {
+            background: var(--bg-secondary);
+            min-height: 60vh;
+        }
+
+        .roi-layout {
+            max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start;
+        }
+
+        /* ── Input panel ── */
+        .input-panel {
+            background: var(--bg-card); border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl); padding: 36px;
+            box-shadow: var(--shadow-md);
+        }
+        .input-panel .panel-header { margin-bottom: 32px; }
+        .input-panel .panel-header h2 {
+            font-size: 1.25rem; font-weight: 800; color: var(--text-primary); margin-bottom: 4px;
+        }
+        .input-panel .panel-header p { font-size: 0.85rem; color: var(--text-tertiary); margin-bottom: 0; }
+
+        .input-group { margin-bottom: 28px; }
+        .input-group:last-child { margin-bottom: 0; }
+        .input-label {
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 0.88rem; font-weight: 700; color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+        .input-value {
+            font-size: 1rem; font-weight: 900;
+            padding: 3px 12px; border-radius: 100px;
+            background: var(--accent-subtle); border: 1px solid var(--border-accent);
+        }
+        .input-value.green { background: rgba(74,124,89,0.1); border-color: rgba(74,124,89,0.25); color: var(--green-primary); }
+        .input-value.purple { background: rgba(124,74,189,0.1); border-color: rgba(124,74,189,0.25); color: #7C4ABD; }
+
+        /* Slider */
+        .slider-wrap { position: relative; }
+        input[type="range"] {
+            -webkit-appearance: none; appearance: none;
+            width: 100%; height: 6px;
+            background: var(--bg-tertiary); border-radius: 3px; outline: none;
+            cursor: pointer;
+        }
+        input[type="range"].gold::-webkit-slider-runnable-track { background: linear-gradient(90deg, var(--accent-primary) var(--pct,50%), var(--bg-tertiary) var(--pct,50%)); border-radius: 3px; }
+        input[type="range"].green::-webkit-slider-runnable-track { background: linear-gradient(90deg, var(--green-primary) var(--pct,50%), var(--bg-tertiary) var(--pct,50%)); border-radius: 3px; }
+        input[type="range"].purple::-webkit-slider-runnable-track { background: linear-gradient(90deg, #7C4ABD var(--pct,50%), var(--bg-tertiary) var(--pct,50%)); border-radius: 3px; }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%;
+            background: #fff; border: 3px solid var(--accent-primary);
+            cursor: pointer; box-shadow: 0 2px 8px rgba(44,24,16,0.15);
+            transition: transform 0.15s ease;
+        }
+        input[type="range"].green::-webkit-slider-thumb { border-color: var(--green-primary); }
+        input[type="range"].purple::-webkit-slider-thumb { border-color: #7C4ABD; }
+        input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+        .slider-ticks { display: flex; justify-content: space-between; margin-top: 6px; }
+        .slider-ticks span { font-size: 0.72rem; color: var(--text-muted); font-weight: 500; }
+
+        /* Select */
+        .custom-select {
+            width: 100%; padding: 12px 16px; font-size: 0.9rem; font-family: inherit;
+            font-weight: 600; color: var(--text-primary);
+            background: var(--bg-secondary); border: 1px solid var(--border-medium);
+            border-radius: var(--radius-md); outline: none; cursor: pointer;
+            transition: border-color 0.2s;
+        }
+        .custom-select:focus { border-color: var(--accent-primary); }
+
+        /* Toggle group */
+        .toggle-group { display: flex; gap: 8px; }
+        .toggle-btn {
+            flex: 1; padding: 10px 8px; border: 1px solid var(--border-medium);
+            border-radius: var(--radius-md); font-size: 0.85rem; font-weight: 700;
+            color: var(--text-secondary); background: var(--bg-secondary);
+            cursor: pointer; text-align: center; transition: all 0.2s;
+        }
+        .toggle-btn.active { border-color: var(--accent-primary); background: var(--accent-subtle); color: var(--accent-primary); }
+        .toggle-btn.green.active { border-color: var(--green-primary); background: rgba(74,124,89,0.1); color: var(--green-primary); }
+        .toggle-btn.purple.active { border-color: #7C4ABD; background: rgba(124,74,189,0.1); color: #7C4ABD; }
+
+        /* Panel visibility */
+        .calc-panel { display: none; }
+        .calc-panel.active { display: block; }
+
+        /* ── Results panel ── */
+        .results-panel {
+            position: sticky; top: 80px;
+        }
+
+        .result-main {
+            background: linear-gradient(135deg, var(--text-primary) 0%, #1a0f08 100%);
+            border-radius: var(--radius-xl); padding: 36px; margin-bottom: 16px;
+            position: relative; overflow: hidden; text-align: center;
+            box-shadow: var(--shadow-lg);
+        }
+        .result-main::before {
+            content: ''; position: absolute; top: -40px; right: -40px;
+            width: 180px; height: 180px;
+            background: radial-gradient(circle, rgba(184,117,30,0.25), transparent 65%);
+            pointer-events: none;
+        }
+        .result-main .result-label {
+            font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.14em; color: rgba(255,255,255,0.45); margin-bottom: 8px;
+            position: relative;
+        }
+        .result-main .result-big {
+            font-size: clamp(2.4rem, 5vw, 3.6rem); font-weight: 900;
+            color: #E6A821; line-height: 1; margin-bottom: 6px; position: relative;
+            transition: opacity 0.2s;
+        }
+        .result-main .result-big.green { color: #86efac; }
+        .result-main .result-big.purple { color: #c4b5fd; }
+        .result-main .result-sub {
+            font-size: 0.85rem; color: rgba(255,255,255,0.5); position: relative;
+        }
+
+        /* Metric cards */
+        .metric-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+        .metric-card {
+            background: var(--bg-card); border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg); padding: 20px 16px; text-align: center;
+            box-shadow: var(--shadow-sm); transition: border-color 0.2s;
+        }
+        .metric-card .mc-val { font-size: 1.4rem; font-weight: 900; display: block; line-height: 1; margin-bottom: 4px; }
+        .metric-card .mc-val.gold { color: var(--accent-primary); }
+        .metric-card .mc-val.green { color: var(--green-primary); }
+        .metric-card .mc-val.red { color: var(--error); }
+        .metric-card .mc-val.purple { color: #7C4ABD; }
+        .metric-card .mc-label { font-size: 0.76rem; color: var(--text-tertiary); font-weight: 600; }
+
+        /* Insight card */
+        .insight-card {
+            background: var(--bg-card); border: 1px solid var(--border-accent);
+            border-radius: var(--radius-lg); padding: 20px 22px;
+            box-shadow: var(--shadow-sm); margin-bottom: 16px;
+        }
+        .insight-card .insight-head {
+            font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.12em; color: var(--accent-primary); margin-bottom: 8px;
+        }
+        .insight-card .insight-head.green { color: var(--green-primary); }
+        .insight-card .insight-head.purple { color: #7C4ABD; }
+        .insight-card p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 0; font-weight: 500; }
+        .insight-card p strong { color: var(--text-primary); }
+
+        /* Live ticker */
+        .live-ticker {
+            background: rgba(184,117,30,0.08); border: 1px solid rgba(184,117,30,0.2);
+            border-radius: var(--radius-md); padding: 14px 18px;
+            display: flex; align-items: center; justify-content: space-between; gap: 12px;
+        }
+        .live-ticker .ticker-label { font-size: 0.78rem; color: var(--text-tertiary); font-weight: 600; }
+        .live-ticker .ticker-val { font-size: 1.1rem; font-weight: 900; color: var(--accent-primary); font-variant-numeric: tabular-nums; }
+        .live-ticker .ticker-dot { width: 8px; height: 8px; background: var(--green-secondary); border-radius: 50%; animation: pulse 1.5s ease-in-out infinite; flex-shrink: 0; }
+        @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
+
+        /* Number flip animation */
+        @keyframes numFlip { 0%{opacity:0;transform:translateY(8px)} 100%{opacity:1;transform:translateY(0)} }
+        .flip { animation: numFlip 0.25s ease forwards; }
+
+        /* ── Bottom CTA ── */
+        .roi-cta {
+            background: var(--bg-primary); border-top: 1px solid var(--border-subtle);
+            padding: 64px 24px; text-align: center;
+        }
+        .roi-cta h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 900; color: var(--text-primary); margin-bottom: 12px; }
+        .roi-cta p { font-size: 1rem; color: var(--text-secondary); max-width: 420px; margin: 0 auto 28px; line-height: 1.7; }
+
+        /* ── Responsive ── */
+        @media (max-width: 860px) {
+            .roi-layout { grid-template-columns: 1fr; }
+            .results-panel { position: static; }
+            .mode-tab { font-size: 0.8rem; padding: 10px 18px; }
+        }
+        @media (max-width: 480px) {
+            .metric-cards { grid-template-columns: 1fr; }
+            .input-panel { padding: 24px 20px; }
+            .result-main { padding: 28px 20px; }
+        }
+        @media print {
+            .collateral-nav, .mode-tabs, .download-btn { display: none !important; }
+            @page { margin: 14mm; }
+        }
+    </style>
+</head>
+<body class="collateral-page">
+
+    <nav class="collateral-nav">
+        <a href="index.html" class="logo">
+            <span class="logo-icon">🌾</span>
+            <span class="logo-text">RISE</span>
+            <span class="logo-hindi">the sattu</span>
+        </a>
+        <div class="collateral-nav-actions">
+            <a href="index.html" class="back-link">← Main Site</a>
+            <a href="artifacts.html" class="back-link" style="margin-left:4px;">Artifacts</a>
+            <button class="download-btn" onclick="window.print()">⬇ Save as PDF</button>
+        </div>
+    </nav>
+
+    <!-- ── HERO ── -->
+    <header class="roi-hero">
+        <div style="position:relative;">
+            <div class="eyebrow">🧮 ROI Calculator · Interactive Tool</div>
+            <h1>What Is Your Daily Drink Habit<br><span>Really Costing You?</span></h1>
+            <p>Pick your mode, move the sliders, and watch the numbers reveal what switching to RISE is actually worth — in money, health, and productivity.</p>
+        </div>
+        <div class="mode-tabs">
+            <button class="mode-tab active" data-mode="personal">👤 Personal Savings</button>
+            <button class="mode-tab" data-mode="corporate">🏢 Corporate Wellness</button>
+            <button class="mode-tab" data-mode="retailer">🏪 Retailer Profit</button>
+        </div>
+    </header>
+
+    <!-- ── CALCULATOR ── -->
+    <div class="roi-body">
+        <div class="roi-layout">
+
+            <!-- INPUT PANEL -->
+            <div class="input-panel">
+
+                <!-- PERSONAL -->
+                <div class="calc-panel active" id="panel-personal">
+                    <div class="panel-header">
+                        <h2>Your Daily Drink Habit</h2>
+                        <p>Tell us what you're drinking now. We'll show you the real cost — and what you'd save with RISE.</p>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-label">
+                            Drinks per day
+                            <span class="input-value" id="p-drinks-val">2</span>
+                        </div>
+                        <div class="slider-wrap">
+                            <input type="range" class="gold" id="p-drinks" min="1" max="5" value="2">
+                            <div class="slider-ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-label">Your current go-to drink</div>
+                        <select class="custom-select" id="p-drink-type">
+                            <option value="30,33">Cola / Soda (₹30 · 33g sugar)</option>
+                            <option value="50,25">Packaged Fruit Juice (₹50 · 25g sugar)</option>
+                            <option value="80,32">Energy Drink (₹80 · 32g sugar)</option>
+                            <option value="120,18" selected>Protein Shake (₹120 · 18g sugar)</option>
+                            <option value="65,28">Bournvita / Horlicks (₹65 · 28g sugar)</option>
+                            <option value="25,15">Chai + Biscuit (₹25 · 15g sugar)</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-label">Days per week</div>
+                        <div class="toggle-group">
+                            <button class="toggle-btn" data-days="5">5 days</button>
+                            <button class="toggle-btn active" data-days="6">6 days</button>
+                            <button class="toggle-btn" data-days="7">7 days</button>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-label">
+                            Years to project
+                            <span class="input-value" id="p-years-val">3 yrs</span>
+                        </div>
+                        <div class="slider-wrap">
+                            <input type="range" class="gold" id="p-years" min="1" max="5" value="3">
+                            <div class="slider-ticks"><span>1 yr</span><span>2</span><span>3</span><span>4</span><span>5 yrs</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CORPORATE -->
+                <div class="calc-panel" id="panel-corporate">
+                    <div class="panel-header">
+                        <h2>Your Team's Afternoon Slump</h2>
+                        <p>The sugar crash is a productivity tax your company pays every single day. Here's how much it costs — and what RISE recovers.</p>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-label">
+                            Team size
+                            <span class="input-value green" id="c-team-val">30 people</span>
+                        </div>
+                        <div class="slider-wrap">
+                            <input type="range" class="green" id="c-team" min="5" max="200" value="30" step="5">
+                            <div class="slider-ticks"><span>5</span><span>50</span><span>100</span><span>150</span><span>200</span></div>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-label">Average monthly salary (₹)</div>
+                        <select class="custom-select" id="c-salary">
+                            <option value="30000">₹30,000 / month</option>
+                            <option value="50000" selected>₹50,000 / month</option>
+                            <option value="75000">₹75,000 / month</option>
+                            <option value="100000">₹1,00,000 / month</option>
+                            <option value="150000">₹1,50,000 / month</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-label">
+                            Estimated productivity dip
+                            <span class="input-value green" id="c-dip-val">60 min/day</span>
+                        </div>
+                        <div class="slider-wrap">
+                            <input type="range" class="green" id="c-dip" min="15" max="120" value="60" step="15">
+                            <div class="slider-ticks"><span>15 min</span><span>30</span><span>60</span><span>90</span><span>120</span></div>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-label">
+                            RISE sachets per person/day
+                            <span class="input-value green" id="c-sachets-val">1 sachet</span>
+                        </div>
+                        <div class="slider-wrap">
+                            <input type="range" class="green" id="c-sachets" min="1" max="2" value="1" step="1">
+                            <div class="slider-ticks"><span>1 sachet (₹30)</span><span></span><span>2 sachets (₹60)</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RETAILER -->
+                <div class="calc-panel" id="panel-retailer">
+                    <div class="panel-header">
+                        <h2>Your RISE Stocking Plan</h2>
+                        <p>Estimate your monthly margin and annual profit from stocking RISE across your outlet or network.</p>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-label">
+                            Sachets / month (₹30 MRP)
+                            <span class="input-value purple" id="r-sachets-val">200</span>
+                        </div>
+                        <div class="slider-wrap">
+                            <input type="range" class="purple" id="r-sachets" min="50" max="1000" value="200" step="50">
+                            <div class="slider-ticks"><span>50</span><span>250</span><span>500</span><span>750</span><span>1,000</span></div>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-label">
+                            10-Packs / month (₹269 MRP)
+                            <span class="input-value purple" id="r-packs10-val">40</span>
+                        </div>
+                        <div class="slider-wrap">
+                            <input type="range" class="purple" id="r-packs10" min="10" max="200" value="40" step="10">
+                            <div class="slider-ticks"><span>10</span><span>50</span><span>100</span><span>150</span><span>200</span></div>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-label">
+                            Classic 250g Jars / month (₹249 MRP)
+                            <span class="input-value purple" id="r-jars-val">20</span>
+                        </div>
+                        <div class="slider-wrap">
+                            <input type="range" class="purple" id="r-jars" min="5" max="100" value="20" step="5">
+                            <div class="slider-ticks"><span>5</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-label">Number of outlets</div>
+                        <div class="toggle-group">
+                            <button class="toggle-btn purple active" data-outlets="1">1 outlet</button>
+                            <button class="toggle-btn purple" data-outlets="3">3 outlets</button>
+                            <button class="toggle-btn purple" data-outlets="5">5 outlets</button>
+                            <button class="toggle-btn purple" data-outlets="10">10 outlets</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- end input-panel -->
+
+            <!-- RESULTS PANEL -->
+            <div class="results-panel">
+
+                <!-- Main big number -->
+                <div class="result-main">
+                    <div class="result-label" id="res-main-label">Annual Savings vs. Current Habit</div>
+                    <div class="result-big" id="res-main-val">₹0</div>
+                    <div class="result-sub" id="res-main-sub">Across 3 years</div>
+                </div>
+
+                <!-- Metric cards -->
+                <div class="metric-cards">
+                    <div class="metric-card">
+                        <span class="mc-val gold" id="mc1-val">—</span>
+                        <span class="mc-label" id="mc1-label">Annual Savings</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="mc-val red" id="mc2-val">—</span>
+                        <span class="mc-label" id="mc2-label">Sugar Avoided (kg/yr)</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="mc-val green" id="mc3-val">—</span>
+                        <span class="mc-label" id="mc3-label">Protein Gained (kg/yr)</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="mc-val gold" id="mc4-val">—</span>
+                        <span class="mc-label" id="mc4-label">Monthly Savings</span>
+                    </div>
+                </div>
+
+                <!-- Insight card -->
+                <div class="insight-card">
+                    <div class="insight-head" id="insight-head">💡 What This Means For You</div>
+                    <p id="insight-text">Adjust the sliders to see your personalised RISE impact.</p>
+                </div>
+
+                <!-- Live ticker (personal only) -->
+                <div class="live-ticker" id="live-ticker">
+                    <div>
+                        <div class="ticker-label">⏱ Saved since you opened this page</div>
+                        <div class="ticker-val" id="ticker-val">₹0.00</div>
+                    </div>
+                    <div class="ticker-dot"></div>
+                </div>
+
+            </div><!-- end results-panel -->
+
+        </div><!-- end roi-layout -->
+    </div><!-- end roi-body -->
+
+    <!-- ── BOTTOM CTA ── -->
+    <section class="roi-cta">
+        <h2>The math is clear. Make the switch.</h2>
+        <p>Every day you delay is money spent on sugar, energy lost to crashes, and potential left unrealised. Start with one sachet.</p>
+        <a href="index.html#order" class="btn btn-primary">Order RISE — ₹30 / sachet →</a>
+        <p style="margin-top:16px; font-size:0.8rem; color:var(--text-muted);">
+            Also explore: &nbsp;
+            <a href="compare.html" style="color:var(--accent-primary); font-weight:600;">Full comparison table →</a>
+            &nbsp;·&nbsp;
+            <a href="infographic.html" style="color:var(--accent-primary); font-weight:600;">4 PM infographic →</a>
+        </p>
+    </section>
+
+    <footer class="collateral-footer">
+        <p>🌾 RISE — the sattu &nbsp;·&nbsp; Ancient Grain. Relentless Rise.</p>
+        <p style="margin-top:8px;">© 2025 RISE — the sattu. &nbsp;|&nbsp; <a href="index.html" style="color:var(--accent-primary);">Main Site</a> &nbsp;|&nbsp; <a href="artifacts.html" style="color:var(--accent-primary);">Artifacts</a></p>
+    </footer>
+
+    <script>
+    (() => {
+        /* ── State ── */
+        let mode = 'personal';
+        let pageOpenTime = Date.now();
+        let tickerInterval = null;
+
+        const state = {
+            personal:  { drinks: 2, drinkPrice: 120, sugarPer: 18, days: 6, years: 3 },
+            corporate: { team: 30, salary: 50000, dipMins: 60, sachetsPerPerson: 1 },
+            retailer:  { sachets: 200, packs10: 40, jars: 20, outlets: 1 }
+        };
+
+        /* ── DOM refs ── */
+        const $ = id => document.getElementById(id);
+
+        /* ── Tab switching ── */
+        document.querySelectorAll('.mode-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.calc-panel').forEach(p => p.classList.remove('active'));
+                tab.classList.add('active');
+                mode = tab.dataset.mode;
+                $('panel-' + mode).classList.add('active');
+                $('live-ticker').style.display = (mode === 'personal') ? 'flex' : 'none';
+                pageOpenTime = Date.now();
+                calculate();
+            });
+        });
+
+        /* ── Slider helpers ── */
+        function updateTrack(el) {
+            const min = +el.min, max = +el.max, val = +el.value;
+            const pct = ((val - min) / (max - min)) * 100;
+            el.style.setProperty('--pct', pct + '%');
+        }
+
+        function bindSlider(id, statePath, displayId, fmt, onChange) {
+            const el = $(id);
+            if (!el) return;
+            updateTrack(el);
+            el.addEventListener('input', () => {
+                updateTrack(el);
+                if (displayId) $(displayId).textContent = fmt(el.value);
+                onChange(+el.value);
+                calculate();
+            });
+        }
+
+        /* ── Toggle groups ── */
+        document.querySelectorAll('.toggle-group').forEach(group => {
+            group.querySelectorAll('.toggle-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    group.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    if (btn.dataset.days)    state.personal.days = +btn.dataset.days;
+                    if (btn.dataset.outlets) state.retailer.outlets = +btn.dataset.outlets;
+                    calculate();
+                });
+            });
+        });
+
+        /* ── Select ── */
+        $('p-drink-type').addEventListener('change', function() {
+            const [price, sugar] = this.value.split(',').map(Number);
+            state.personal.drinkPrice = price;
+            state.personal.sugarPer   = sugar;
+            calculate();
+        });
+        $('c-salary').addEventListener('change', function() {
+            state.corporate.salary = +this.value;
+            calculate();
+        });
+
+        /* ── Bind all sliders ── */
+        bindSlider('p-drinks', null, 'p-drinks-val', v => v, v => state.personal.drinks = v);
+        bindSlider('p-years',  null, 'p-years-val',  v => v + ' yr' + (v>1?'s':''), v => state.personal.years = v);
+        bindSlider('c-team',   null, 'c-team-val',   v => v + ' people', v => state.corporate.team = v);
+        bindSlider('c-dip',    null, 'c-dip-val',    v => v + ' min/day', v => state.corporate.dipMins = v);
+        bindSlider('c-sachets',null, 'c-sachets-val',v => v + ' sachet' + (v>1?'s':''), v => state.corporate.sachetsPerPerson = v);
+        bindSlider('r-sachets',null, 'r-sachets-val',v => v, v => state.retailer.sachets = v);
+        bindSlider('r-packs10',null, 'r-packs10-val',v => v, v => state.retailer.packs10 = v);
+        bindSlider('r-jars',   null, 'r-jars-val',   v => v, v => state.retailer.jars = v);
+
+        /* ── Formatters ── */
+        const fmt  = n => '₹' + Math.round(n).toLocaleString('en-IN');
+        const fmtK = n => n >= 100000 ? '₹' + (n/100000).toFixed(1) + ' L' : n >= 1000 ? '₹' + Math.round(n/1000) + 'K' : fmt(n);
+        const fmtD = n => n.toFixed(1);
+        const fmtP = n => Math.round(n) + '%';
+
+        /* ── Animate number ── */
+        let animFrames = {};
+        function animateTo(id, targetVal, formatFn) {
+            const el = $(id);
+            if (!el) return;
+            cancelAnimationFrame(animFrames[id]);
+            const start = Date.now();
+            const duration = 350;
+            const raw = parseFloat(el.dataset.raw || '0');
+            function tick() {
+                const t = Math.min((Date.now() - start) / duration, 1);
+                const ease = t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
+                const cur = raw + (targetVal - raw) * ease;
+                el.textContent = formatFn(cur);
+                if (t < 1) animFrames[id] = requestAnimationFrame(tick);
+                else { el.dataset.raw = targetVal; el.textContent = formatFn(targetVal); }
+            }
+            el.dataset.raw = raw;
+            animFrames[id] = requestAnimationFrame(tick);
+        }
+
+        function setResult(mainLabel, mainVal, mainSub, mainClass,
+                           mc1v, mc1l, mc1c, mc2v, mc2l, mc2c,
+                           mc3v, mc3l, mc3c, mc4v, mc4l, mc4c,
+                           insightHead, insightText, tickerRate) {
+
+            $('res-main-label').textContent = mainLabel;
+            $('res-main-val').className = 'result-big ' + mainClass;
+            $('res-main-sub').textContent = mainSub;
+            animateTo('res-main-val', mainVal, v => fmtK(v));
+
+            animateTo('mc1-val', mc1v, mc1c === 'gold' ? fmtK : mc1c === 'pct' ? fmtP : fmtK);
+            $('mc1-val').className = 'mc-val ' + mc1c; $('mc1-label').textContent = mc1l;
+
+            animateTo('mc2-val', mc2v, mc2c === 'red' ? v => fmtD(v) + ' kg' : fmtK);
+            $('mc2-val').className = 'mc-val ' + mc2c; $('mc2-label').textContent = mc2l;
+
+            animateTo('mc3-val', mc3v, mc3c === 'green' ? v => fmtD(v) + ' kg' : mc3c === 'pct' ? fmtP : fmtK);
+            $('mc3-val').className = 'mc-val ' + mc3c; $('mc3-label').textContent = mc3l;
+
+            animateTo('mc4-val', mc4v, mc4c === 'gold' ? fmtK : mc4c === 'purple' ? fmtP : fmtK);
+            $('mc4-val').className = 'mc-val ' + mc4c; $('mc4-label').textContent = mc4l;
+
+            $('insight-head').textContent = insightHead;
+            $('insight-text').innerHTML = insightText;
+
+            // Live ticker
+            clearInterval(tickerInterval);
+            if (tickerRate > 0) {
+                const startTime = Date.now();
+                tickerInterval = setInterval(() => {
+                    const elapsed = (Date.now() - startTime) / 1000;
+                    const saved = tickerRate * elapsed;
+                    $('ticker-val').textContent = '₹' + saved.toFixed(2);
+                }, 50);
+            } else {
+                $('ticker-val').textContent = '₹0.00';
+            }
+        }
+
+        /* ── Calculations ── */
+        function calcPersonal() {
+            const { drinks, drinkPrice, sugarPer, days, years } = state.personal;
+            const currentAnnual  = drinks * drinkPrice * days * 52;
+            const riseAnnual     = drinks * 30         * days * 52;
+            const annualSavings  = currentAnnual - riseAnnual;
+            const projectedTotal = annualSavings * years;
+            const sugarKgPerYear = drinks * sugarPer * days * 52 / 1000;
+            const proteinKgPerYear = drinks * 9 * days * 52 / 1000;
+            const monthlyS       = annualSavings / 12;
+            const sachetsAffordable = Math.round(annualSavings / 30);
+            const tickerRatePerSec = riseAnnual > 0 ? annualSavings / (days * 52 * 24 * 3600) : 0;
+
+            const insightText = annualSavings > 0
+                ? `With RISE, you save <strong>${fmt(annualSavings)}</strong> every year — enough to buy <strong>${sachetsAffordable.toLocaleString()} sachets</strong> of RISE for free. Over ${years} year${years>1?'s':''}, that's <strong>${fmtK(projectedTotal)}</strong> back in your pocket.`
+                : `RISE costs the same or less than your current drink. You get <strong>more protein, zero sugar</strong> and certified organic ingredients — for no extra spend.`;
+
+            setResult(
+                `Projected Savings over ${years} Year${years>1?'s':''}`,
+                projectedTotal,
+                `vs. your current ${fmt(currentAnnual)}/yr habit`,
+                'gold',
+                annualSavings,    'Annual Savings',      'gold',
+                sugarKgPerYear,   'Sugar Avoided / yr',  'red',
+                proteinKgPerYear, 'Protein Gained / yr', 'green',
+                monthlyS,         'Monthly Savings',     'gold',
+                '💰 Your Money Saved',
+                insightText,
+                tickerRatePerSec
+            );
+        }
+
+        function calcCorporate() {
+            const { team, salary, dipMins, sachetsPerPerson } = state.corporate;
+            const hourlyRate = (salary * 12) / (250 * 8);
+            const dailyLoss  = (dipMins / 60) * hourlyRate;
+            const monthlyLoss = dailyLoss * team * 22;
+            const monthlyRise = sachetsPerPerson * 30 * 22 * team;
+            const monthlyGain = monthlyLoss - monthlyRise;
+            const roiPct      = monthlyRise > 0 ? (monthlyGain / monthlyRise) * 100 : 0;
+            const annualGain  = monthlyGain * 12;
+
+            const insightText = `Providing RISE to your team costs <strong>${fmt(monthlyRise)}/month</strong>. The productivity recovered from eliminating the afternoon slump is worth <strong>${fmt(monthlyLoss)}/month</strong>. That's a net <strong>monthly gain of ${fmt(monthlyGain)}</strong> — an ROI of <strong>${Math.round(roiPct)}%</strong>.`;
+
+            setResult(
+                'Annual Productivity ROI',
+                annualGain,
+                `for a team of ${team} at ₹${(salary/1000).toFixed(0)}K/month`,
+                'green',
+                monthlyLoss,  'Productivity Recovered /mo', 'green',
+                monthlyRise,  'RISE Monthly Investment',    'gold',
+                monthlyGain,  'Net Monthly Gain',           'green',
+                roiPct,       'ROI %',                      'pct',
+                '🏢 Corporate Wellness ROI',
+                insightText,
+                0
+            );
+            $('mc3-val').className = 'mc-val green';
+            $('mc4-val').className = 'mc-val purple';
+        }
+
+        function calcRetailer() {
+            const { sachets, packs10, jars, outlets } = state.retailer;
+            const s  = sachets  * outlets;
+            const p  = packs10  * outlets;
+            const j  = jars     * outlets;
+            const revenue = s * 30    + p * 269    + j * 249;
+            const cost    = s * 21    + p * 188    + j * 174;
+            const margin  = revenue - cost;
+            const pct     = revenue > 0 ? (margin / revenue) * 100 : 0;
+            const annual  = margin * 12;
+            const invst   = cost;
+
+            const insightText = `Stocking RISE across <strong>${outlets} outlet${outlets>1?'s':''}</strong>, your monthly revenue is <strong>${fmt(revenue)}</strong> with a margin of <strong>${Math.round(pct)}%</strong>. Annual profit: <strong>${fmtK(annual)}</strong>. Return on inventory: <strong>${invst > 0 ? Math.round((margin/invst)*100) : 0}% monthly</strong>.`;
+
+            setResult(
+                'Annual Retailer Profit',
+                annual,
+                `across ${outlets} outlet${outlets>1?'s':''}`,
+                'purple',
+                revenue, 'Monthly Revenue',   'purple',
+                margin,  'Monthly Margin',    'purple',
+                pct,     'Margin %',          'pct',
+                annual,  'Annual Profit',     'purple',
+                '🏪 Retailer Return',
+                insightText,
+                0
+            );
+            $('res-main-val').className = 'result-big purple';
+            $('mc1-val').className = 'mc-val purple';
+            $('mc2-val').className = 'mc-val purple';
+            $('mc3-val').className = 'mc-val purple';
+            $('mc4-val').className = 'mc-val purple';
+            $('insight-head').className = 'insight-head purple';
+        }
+
+        function calculate() {
+            if (mode === 'personal')  calcPersonal();
+            if (mode === 'corporate') calcCorporate();
+            if (mode === 'retailer')  calcRetailer();
+        }
+
+        /* ── Init ── */
+        calculate();
+    })();
+    </script>
+
+</body>
+</html>
