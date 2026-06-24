@@ -11,20 +11,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Debug: check VERCEL_TOKEN
-        run: |
-          echo "Checking VERCEL_TOKEN availability"
-          if [ -z "${{ secrets.VERCEL_TOKEN }}" ]; then
-            echo "VERCEL_TOKEN is EMPTY or not set"
-            exit 1
-          else
-            echo "VERCEL_TOKEN is set"
-          fi
-
-      - name: Deploy to Vercel (CLI)
-        run: |
-          echo "Installing dev dependencies and running vercel CLI"
-          npm ci --no-audit --no-fund
-          npx --yes vercel --token "${{ secrets.VERCEL_TOKEN }}" --prod --confirm
+      - name: Deploy to Vercel
+        run: npx --yes vercel --token "$VERCEL_TOKEN" --prod --yes
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
