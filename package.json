@@ -1,0 +1,24 @@
+{
+  "name": "arogya-sattu-landing-page",
+  "version": "1.0.0",
+  "description": "Arogya Sattu — The Desi Protein Drink Landing Page",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "deploy": "vercel --prod"
+  },
+  "keywords": [
+    "arogya-sattu",
+    "sattu",
+    "protein",
+    "landing-page",
+    "health-drink"
+  ],
+  "author": "Arogya Sattu",
+  "license": "ISC",
+  "dependencies": {
+    "compression": "^1.7.4",
+    "express": "^4.18.2"
+  }
+}
