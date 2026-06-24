@@ -11,7 +11,8 @@
     { "src": "partner.html", "use": "@vercel/static" },
     { "src": "pitch.html", "use": "@vercel/static" },
     { "src": "compare.html", "use": "@vercel/static" },
-    { "src": "artifacts.html", "use": "@vercel/static" }
+    { "src": "artifacts.html", "use": "@vercel/static" },
+    { "src": "infographic.html", "use": "@vercel/static" }
   ],
   "routes": [
     { "handle": "filesystem" },
