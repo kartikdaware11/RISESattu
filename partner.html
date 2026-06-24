@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RISE — the sattu | Become a Partner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .partner-hero {
+            padding: 80px 0 72px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(160deg, var(--bg-primary) 0%, rgba(74,124,89,0.06) 100%);
+        }
+        .partner-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(74,124,89,0.1) 0%, transparent 65%);
+        }
+        .partner-hero .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: rgba(74,124,89,0.1);
+            border: 1px solid rgba(74,124,89,0.25);
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--green-primary);
+            margin-bottom: 24px;
+            position: relative;
+        }
+        .partner-hero h1 {
+            font-size: clamp(2.2rem, 5vw, 3.4rem);
+            font-weight: 800;
+            color: var(--text-primary);
+            line-height: 1.1;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .partner-hero .sub {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 560px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+            position: relative;
+        }
+        .partner-hero .hero-stats-row {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            flex-wrap: wrap;
+            position: relative;
+        }
+        .hero-stat-item {
+            text-align: center;
+        }
+        .hero-stat-item .val {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent-primary);
+            display: block;
+        }
+        .hero-stat-item .lbl {
+            font-size: 0.85rem;
+            color: var(--text-tertiary);
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .benefit-card {
+            padding: 32px 28px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            transition: var(--transition-base);
+        }
+        .benefit-card:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-3px);
+        }
+        .benefit-icon {
+            font-size: 2.4rem;
+            margin-bottom: 16px;
+            display: block;
+        }
+        .benefit-card h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        .benefit-card p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .onboarding-steps {
+            max-width: 760px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .onboarding-step {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 24px;
+            align-items: flex-start;
+            padding: 32px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            transition: var(--transition-base);
+        }
+        .onboarding-step:hover {
+            border-color: var(--border-accent);
+        }
+        .onboarding-num {
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: #fff;
+            font-size: 1.3rem;
+            font-weight: 800;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .onboarding-step h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+        .onboarding-step p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        .onboarding-step .step-eta {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 3px 12px;
+            background: var(--accent-subtle);
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--accent-primary);
+        }
+
+        .form-section {
+            background: var(--bg-secondary);
+        }
+        .form-wrapper {
+            max-width: 640px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
+            padding: 48px;
+        }
+        .form-wrapper h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        .form-wrapper .form-sub {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+        }
+        .form-submit-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .form-note {
+            font-size: 0.82rem;
+            color: var(--text-tertiary);
+        }
+
+        @media print {
+            .collateral-nav, .download-btn { display: none !important; }
+            body, .collateral-page { background: #fff !important; }
+            .partner-hero { background: #fff !important; padding: 24px 0 32px; }
+            .benefit-card, .onboarding-step, .tier-card, .form-wrapper { box-shadow: none !important; border-color: #e0d8cc !important; }
+            .form-section { background: #f9f4ec !important; }
+            @page { margin: 16mm; }
+        }
+        @media (max-width: 768px) {
+            .benefits-grid { grid-template-columns: 1fr; }
+            .tier-grid { grid-template-columns: 1fr; }
+            .form-wrapper { padding: 28px 20px; }
+            .partner-hero .hero-stats-row { gap: 24px; }
+        }
+    </style>
+</head>
+<body class="collateral-page">
+
+    <nav class="collateral-nav">
+        <a href="index.html" class="logo">
+            <span class="logo-icon">🌾</span>
+            <span class="logo-text">RISE</span>
+            <span class="logo-hindi">the sattu</span>
+        </a>
+        <div class="collateral-nav-actions">
+            <a href="index.html" class="back-link">← Back to main site</a>
+            <button class="download-btn" onclick="window.print()">⬇ Download PDF</button>
+        </div>
+    </nav>
+
+    <main>
+
+        <!-- Hero -->
+        <section class="partner-hero">
+            <div class="container">
+                <div class="eyebrow">🤝 Partnership Programme</div>
+                <h1>Grow with RISE.<br><span class="gradient-text">Build together.</span></h1>
+                <p class="sub">Join India's fastest-growing ancient protein brand. Stock RISE in your store, distribute across your region, or represent the brand — there's a tier for every ambition.</p>
+                <div class="hero-stats-row">
+                    <div class="hero-stat-item">
+                        <span class="val">₹35</span>
+                        <span class="lbl">Retail price / sachet</span>
+                    </div>
+                    <div class="hero-stat-item">
+                        <span class="val">30%+</span>
+                        <span class="lbl">Retailer margin</span>
+                    </div>
+                    <div class="hero-stat-item">
+                        <span class="val">48h</span>
+                        <span class="lbl">Onboarding time</span>
+                    </div>
+                    <div class="hero-stat-item">
+                        <span class="val">3</span>
+                        <span class="lbl">Partner tiers</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Partner -->
+        <section class="collateral-section">
+            <div class="container">
+                <div class="section-header center">
+                    <div class="section-label">Why Partner with RISE?</div>
+                    <h2 class="section-title">A product your customers will keep coming back for.</h2>
+                </div>
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <span class="benefit-icon">💰</span>
+                        <h3>Strong Margins</h3>
+                        <p>Competitive wholesale pricing gives you 30%+ retailer margins. Volume tiers reward bigger commitments with deeper discounts.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <span class="benefit-icon">🔄</span>
+                        <h3>High Repeat Purchase</h3>
+                        <p>Sattu is a daily habit. Once customers try RISE, they subscribe. Low ₹35 sachets drive trial; 10-packs build loyalty.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <span class="benefit-icon">📦</span>
+                        <h3>Flexible MOQ</h3>
+                        <p>Start with as few as 50 sachets. Scale to hundreds as demand grows. No rigid minimums that tie up your cash flow.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <span class="benefit-icon">📣</span>
+                        <h3>Co-Marketing Support</h3>
+                        <p>Get RISE branded standees, shelf talkers, and digital assets for your store. We support your promotions with content and visibility.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <span class="benefit-icon">🌍</span>
+                        <h3>Exclusivity Zones</h3>
+                        <p>Distributors get protected territories. Be the sole RISE partner in your pin code or district — first-mover advantage secured.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <span class="benefit-icon">🏆</span>
+                        <h3>Growing Category</h3>
+                        <p>India's health drink market is ₹50,000 Cr and growing. RISE sits at the intersection of protein, heritage, and affordability — a rare spot.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Partner Tiers -->
+        <section class="collateral-section" style="background: var(--bg-secondary);">
+            <div class="container">
+                <div class="section-header center">
+                    <div class="section-label">Partner Tiers</div>
+                    <h2 class="section-title">Pick the level that fits your ambition.</h2>
+                </div>
+                <div class="tier-grid">
+                    <div class="tier-card">
+                        <div class="tier-badge">Stockist</div>
+                        <h3>Store Partner</h3>
+                        <p class="tier-moq">Min. order: 50 sachets</p>
+                        <ul class="tier-perks">
+                            <li>Sachet price: ₹26/unit</li>
+                            <li>Retail at ₹35 → 35% margin</li>
+                            <li>Shelf talker & POP display</li>
+                            <li>WhatsApp ordering</li>
+                            <li>Standard delivery (3–5 days)</li>
+                        </ul>
+                    </div>
+                    <div class="tier-card featured">
+                        <div class="tier-badge">Distributor ⭐</div>
+                        <h3>Regional Distributor</h3>
+                        <p class="tier-moq">Min. order: 500 sachets</p>
+                        <ul class="tier-perks">
+                            <li>Sachet price: ₹21/unit</li>
+                            <li>Exclusive territory lock-in</li>
+                            <li>Co-marketing budget</li>
+                            <li>Dedicated account manager</li>
+                            <li>Free express delivery</li>
+                            <li>First access to new flavors</li>
+                        </ul>
+                    </div>
+                    <div class="tier-card">
+                        <div class="tier-badge">Ambassador</div>
+                        <h3>Brand Ambassador</h3>
+                        <p class="tier-moq">Influencer / Wellness Professional</p>
+                        <ul class="tier-perks">
+                            <li>Personal discount code (20%)</li>
+                            <li>10% commission on sales</li>
+                            <li>Free monthly sample kit</li>
+                            <li>Social media collaboration</li>
+                            <li>Featured on our channels</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Onboarding Steps -->
+        <section class="collateral-section">
+            <div class="container">
+                <div class="section-header center">
+                    <div class="section-label">Getting Started</div>
+                    <h2 class="section-title">From inquiry to first order in under 48 hours.</h2>
+                </div>
+                <div class="onboarding-steps">
+                    <div class="onboarding-step">
+                        <div class="onboarding-num">1</div>
+                        <div>
+                            <h3>Fill the Inquiry Form</h3>
+                            <p>Tell us your business type, location, and expected volumes. Takes less than 2 minutes. No commitments yet.</p>
+                            <span class="step-eta">⏱ 2 minutes</span>
+                        </div>
+                    </div>
+                    <div class="onboarding-step">
+                        <div class="onboarding-num">2</div>
+                        <div>
+                            <h3>Quick Call with Our Trade Team</h3>
+                            <p>We'll call you within 24 hours to understand your requirements, confirm your tier, and answer any questions.</p>
+                            <span class="step-eta">⏱ Within 24 hours</span>
+                        </div>
+                    </div>
+                    <div class="onboarding-step">
+                        <div class="onboarding-num">3</div>
+                        <div>
+                            <h3>Place Your First Order</h3>
+                            <p>Receive your wholesale price list, place your first order via WhatsApp or email, and get dispatched within 48 hours.</p>
+                            <span class="step-eta">⏱ Dispatch in 48 hours</span>
+                        </div>
+                    </div>
+                    <div class="onboarding-step">
+                        <div class="onboarding-num">4</div>
+                        <div>
+                            <h3>Start Selling & Earning</h3>
+                            <p>Your RISE stock arrives with branded display materials. Start selling, and reorder anytime via WhatsApp with no paperwork.</p>
+                            <span class="step-eta">⏱ Ongoing</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Inquiry Form -->
+        <section class="collateral-section form-section">
+            <div class="container">
+                <div class="form-wrapper">
+                    <h3>Become a RISE Partner</h3>
+                    <p class="form-sub">Fill in your details and our trade team will reach out within 24 hours.</p>
+                    <form class="partner-form" onsubmit="event.preventDefault(); alert('Thank you! Our team will contact you within 24 hours.');">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Your Name *</label>
+                                <input type="text" placeholder="Rahul Sharma" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Business Name</label>
+                                <input type="text" placeholder="Sharma Kirana Store">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>City / District *</label>
+                                <input type="text" placeholder="Patna, Bihar" required>
+                            </div>
+                            <div class="form-group">
+                                <label>WhatsApp Number *</label>
+                                <input type="tel" placeholder="+91 98765 43210" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Partnership Type *</label>
+                            <select required>
+                                <option value="">Select your interest...</option>
+                                <option>Stockist (Kirana / Pharmacy / Gym)</option>
+                                <option>Regional Distributor</option>
+                                <option>Brand Ambassador / Influencer</option>
+                                <option>Corporate / Bulk Buyer</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Monthly Volume Expectation</label>
+                            <select>
+                                <option value="">Select range...</option>
+                                <option>50–100 sachets</option>
+                                <option>100–500 sachets</option>
+                                <option>500–2000 sachets</option>
+                                <option>2000+ sachets</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Anything else you'd like to share?</label>
+                            <textarea placeholder="Tell us about your store, region, or any specific requirements..."></textarea>
+                        </div>
+                        <div class="form-submit-row">
+                            <button type="submit" class="btn btn-primary">Submit Inquiry →</button>
+                            <p class="form-note">We respond within 24 hours. No spam, ever.</p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="collateral-footer">
+        <p>🌾 RISE — the sattu &nbsp;·&nbsp; trade@risethesattu.in &nbsp;·&nbsp; +91 99999 99999</p>
+        <p style="margin-top:8px;">© 2025 RISE — the sattu. All rights reserved. &nbsp;|&nbsp; <a href="index.html" style="color:var(--accent-primary);">risethesattu.in</a></p>
+    </footer>
+
+</body>
+</html>
