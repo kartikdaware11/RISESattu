@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RISE — Distribution Channels & Flow</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* ── Page chrome ── */
+        .ch-hero {
+            background: linear-gradient(135deg, #0d1f10 0%, #1a3520 55%, #0f1a0a 100%);
+            padding: 64px 0 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .ch-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 60% 60% at 50% 0%, rgba(74,124,89,0.25) 0%, transparent 65%);
+            pointer-events: none;
+        }
+        .ch-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: rgba(74,124,89,0.18);
+            border: 1px solid rgba(91,155,107,0.35);
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #7BC896;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .ch-hero h1 {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 12px;
+            line-height: 1.15;
+            position: relative;
+        }
+        .ch-hero h1 span { color: #7BC896; }
+        .ch-hero p {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.6);
+            max-width: 480px;
+            margin: 0 auto 28px;
+            position: relative;
+        }
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            background: rgba(74,124,89,0.2);
+            border: 1.5px solid rgba(74,124,89,0.5);
+            color: #7BC896;
+            font-weight: 700;
+            font-size: 0.88rem;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s, border-color 0.2s;
+            position: relative;
+        }
+        .download-btn:hover { background: rgba(74,124,89,0.32); border-color: #7BC896; }
+
+        /* ── Main diagram section ── */
+        .ch-section {
+            padding: 64px 0 72px;
+        }
+        .ch-title-row {
+            display: flex;
+            align-items: baseline;
+            gap: 16px;
+            margin-bottom: 8px;
+        }
+        .ch-title-row h2 {
+            font-size: 1.65rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+        .ch-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-tertiary);
+            margin-bottom: 48px;
+        }
+
+        /* ── Flow Diagram ── */
+        .flow-diagram {
+            display: grid;
+            grid-template-columns: 200px 56px 1fr 56px 180px;
+            grid-template-rows: auto auto auto;
+            gap: 0;
+            align-items: center;
+            margin-bottom: 48px;
+        }
+
+        /* Source box — spans all 3 rows */
+        .flow-source {
+            grid-column: 1;
+            grid-row: 1 / 4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 0;
+        }
+        .box-source {
+            background: linear-gradient(135deg, #111 0%, #1c1c1c 100%);
+            border: 2px solid rgba(255,255,255,0.12);
+            border-radius: 14px;
+            padding: 24px 20px;
+            text-align: center;
+            color: #fff;
+            width: 100%;
+        }
+        .box-source .box-label { font-size: 1rem; font-weight: 800; }
+        .box-source .box-sub  { font-size: 0.78rem; color: rgba(255,255,255,0.55); margin-top: 6px; }
+
+        /* Arrow from source — row 2 center */
+        .flow-arrow-left {
+            grid-column: 2;
+            grid-row: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .flow-arrow-left .arrow-h {
+            width: 100%;
+            height: 2px;
+            background: #555;
+            position: relative;
+        }
+        .flow-arrow-left .arrow-h::after {
+            content: '';
+            position: absolute;
+            right: -1px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-left: 9px solid #555;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+        }
+
+        /* Vertical connector on left side of channels */
+        .flow-branch {
+            grid-column: 2;
+            grid-row: 1 / 4;
+            position: relative;
+            pointer-events: none;
+        }
+        .flow-branch .v-line {
+            position: absolute;
+            left: 50%;
+            top: 50px;
+            bottom: 50px;
+            width: 2px;
+            background: #444;
+            transform: translateX(-50%);
+        }
+
+        /* Channel boxes */
+        .flow-channels {
+            grid-column: 3;
+            grid-row: 1 / 4;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding: 4px 0;
+            position: relative;
+        }
+        /* vertical stub line connecting source arrow to all 3 channels */
+        .flow-channels::before {
+            content: '';
+            position: absolute;
+            left: -28px;
+            top: 50px;
+            bottom: 50px;
+            width: 2px;
+            background: #555;
+        }
+        /* horizontal stubs from v-line into each channel */
+        .ch-box {
+            border-radius: 12px;
+            padding: 18px 22px;
+            text-align: center;
+            font-weight: 700;
+            position: relative;
+            cursor: default;
+        }
+        .ch-box::before {
+            content: '';
+            position: absolute;
+            left: -28px;
+            top: 50%;
+            width: 28px;
+            height: 2px;
+            transform: translateY(-50%);
+        }
+        .ch-box .ch-name { font-size: 1rem; font-weight: 800; }
+        .ch-box .ch-sub  { font-size: 0.8rem; margin-top: 4px; opacity: 0.8; }
+
+        .ch-d2c {
+            background: #2D6A4F;
+            color: #fff;
+            border: 2px solid rgba(91,155,107,0.4);
+        }
+        .ch-d2c::before { background: #2D6A4F; }
+
+        .ch-qcom {
+            background: #1a56C8;
+            color: #fff;
+            border: 2px solid rgba(96,165,250,0.35);
+        }
+        .ch-qcom::before { background: #1a56C8; }
+
+        .ch-amazon {
+            background: #C24A0C;
+            color: #fff;
+            border: 2px solid rgba(251,146,60,0.35);
+        }
+        .ch-amazon::before { background: #C24A0C; }
+
+        /* Arrows from channels to target */
+        .flow-arrows-right {
+            grid-column: 4;
+            grid-row: 1 / 4;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            padding: 28px 0;
+            gap: 0;
+        }
+        .arrow-r {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .arrow-r .arrow-h {
+            width: 100%;
+            height: 2px;
+            background: #999;
+            position: relative;
+        }
+        .arrow-r .arrow-h::after {
+            content: '';
+            position: absolute;
+            right: -1px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-left: 8px solid #999;
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid transparent;
+        }
+
+        /* Target box — spans all 3 rows */
+        .flow-target {
+            grid-column: 5;
+            grid-row: 1 / 4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 0;
+        }
+        .box-target {
+            background: linear-gradient(135deg, #92400E 0%, #B45309 100%);
+            border: 2px solid rgba(251,191,36,0.25);
+            border-radius: 14px;
+            padding: 24px 18px;
+            text-align: center;
+            color: #fff;
+            width: 100%;
+        }
+        .box-target .box-label { font-size: 0.95rem; font-weight: 800; }
+        .box-target .box-sub  { font-size: 0.78rem; color: rgba(255,255,255,0.7); margin-top: 6px; }
+
+        /* COGS footnote */
+        .flow-footnote {
+            background: rgba(74,124,89,0.08);
+            border: 1px solid rgba(74,124,89,0.2);
+            border-radius: var(--radius-md);
+            padding: 14px 22px;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            display: flex;
+            gap: 32px;
+            flex-wrap: wrap;
+        }
+        .flow-footnote strong { color: #2D6A4F; font-style: normal; }
+
+        /* ── Channel Detail Cards ── */
+        .ch-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 48px;
+        }
+        .ch-card {
+            border-radius: var(--radius-xl);
+            padding: 28px 24px;
+            border: 1px solid var(--border-subtle);
+            background: var(--bg-card);
+            position: relative;
+            overflow: hidden;
+        }
+        .ch-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+        }
+        .card-d2c::before   { background: linear-gradient(90deg, #2D6A4F, #4CAF72); }
+        .card-qcom::before  { background: linear-gradient(90deg, #1a56C8, #3B82F6); }
+        .card-amazon::before{ background: linear-gradient(90deg, #C24A0C, #F97316); }
+
+        .ch-card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 14px;
+        }
+        .card-d2c   .ch-card-icon { background: rgba(45,106,79,0.12); }
+        .card-qcom  .ch-card-icon { background: rgba(26,86,200,0.12); }
+        .card-amazon .ch-card-icon { background: rgba(194,74,12,0.12); }
+
+        .ch-card h3 {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+        .ch-card .ch-card-meta {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            margin-bottom: 12px;
+        }
+        .ch-card p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+        .ch-card-stat {
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+        .card-d2c   .ch-card-stat { background: rgba(45,106,79,0.1); color: #2D6A4F; }
+        .card-qcom  .ch-card-stat { background: rgba(26,86,200,0.1); color: #1a56C8; }
+        .card-amazon .ch-card-stat { background: rgba(194,74,12,0.1); color: #C24A0C; }
+
+        /* ── Insight callout ── */
+        .insight-banner {
+            background: linear-gradient(135deg, #0d1f10 0%, #162b18 100%);
+            border-radius: var(--radius-xl);
+            padding: 36px 44px;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 32px;
+            align-items: center;
+            margin-bottom: 64px;
+            position: relative;
+            overflow: hidden;
+        }
+        .insight-banner::before {
+            content: '';
+            position: absolute;
+            top: -60px; right: 80px;
+            width: 220px; height: 220px;
+            background: radial-gradient(circle, rgba(74,124,89,0.2), transparent 65%);
+            pointer-events: none;
+        }
+        .insight-kpi {
+            text-align: center;
+            position: relative;
+        }
+        .insight-kpi .kpi-num {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #7BC896;
+            line-height: 1;
+        }
+        .insight-kpi .kpi-label {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-top: 4px;
+        }
+        .insight-divider {
+            width: 2px;
+            height: 60px;
+            background: rgba(255,255,255,0.1);
+            margin: 0 16px;
+        }
+        .insight-kpis {
+            display: flex;
+            align-items: center;
+            gap: 0;
+        }
+        .insight-text h3 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        .insight-text p {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.6);
+            line-height: 1.7;
+            max-width: 520px;
+        }
+        .insight-text p strong { color: #7BC896; }
+
+        /* ── Responsive ── */
+        @media (max-width: 840px) {
+            .flow-diagram {
+                grid-template-columns: 140px 40px 1fr 40px 130px;
+            }
+            .ch-cards { grid-template-columns: 1fr; }
+            .insight-banner { grid-template-columns: 1fr; gap: 20px; }
+            .insight-kpis { justify-content: center; }
+        }
+        @media (max-width: 600px) {
+            .flow-diagram {
+                display: none;
+            }
+            .flow-mobile {
+                display: flex !important;
+            }
+        }
+
+        /* Mobile-only vertical flow */
+        .flow-mobile {
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 48px;
+        }
+        .flow-mobile-source {
+            background: linear-gradient(135deg, #111, #1c1c1c);
+            border: 2px solid rgba(255,255,255,0.12);
+            border-radius: 12px;
+            padding: 16px 20px;
+            text-align: center;
+            color: #fff;
+        }
+        .flow-mobile-arrow {
+            text-align: center;
+            font-size: 1.4rem;
+            color: #555;
+        }
+        .flow-mobile-channels {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .flow-mobile-arrow-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #999;
+        }
+        .flow-mobile-arrow-row .line {
+            flex: 1;
+            height: 1px;
+            background: #555;
+        }
+        .flow-mobile-target {
+            background: linear-gradient(135deg, #92400E, #B45309);
+            border-radius: 12px;
+            padding: 16px 20px;
+            text-align: center;
+            color: #fff;
+        }
+
+        /* ── Print ── */
+        @media print {
+            .collateral-nav, .download-btn { display: none !important; }
+            body { background: #fff !important; }
+            .ch-hero { background: #1a3520 !important; -webkit-print-color-adjust: exact; }
+            .flow-diagram { page-break-inside: avoid; }
+            .insight-banner { background: #0d1f10 !important; -webkit-print-color-adjust: exact; }
+        }
+    </style>
+</head>
+<body class="collateral-page">
+
+    <nav class="collateral-nav">
+        <a href="index.html" class="logo">
+            <span class="logo-icon">🌾</span>
+            <span class="logo-text">RISE</span>
+            <span class="logo-hindi">the sattu</span>
+        </a>
+        <div class="collateral-nav-actions">
+            <a href="artifacts.html" class="back-link">← Back to Artifacts</a>
+            <button class="download-btn" onclick="window.print()">⬇ Download PDF</button>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="ch-hero">
+        <div class="container" style="position:relative;">
+            <div class="ch-eyebrow">🚚 Go-To-Market</div>
+            <h1>Distribution Channels<br><span>&amp; Flow</span></h1>
+            <p>From Manufacture to Customer — Bengaluru First</p>
+            <button class="download-btn" onclick="window.print()">⬇ Download PDF</button>
+        </div>
+    </section>
+
+    <main>
+        <!-- Flow Diagram -->
+        <section class="ch-section">
+            <div class="container">
+                <div class="ch-title-row">
+                    <h2>Channel Architecture</h2>
+                </div>
+                <p class="ch-subtitle">How each unit travels from factory to the end consumer's hands</p>
+
+                <!-- Desktop flow -->
+                <div class="flow-diagram">
+
+                    <!-- Source box -->
+                    <div class="flow-source">
+                        <div class="box-source">
+                            <div style="font-size:2rem;margin-bottom:8px;">🏭</div>
+                            <div class="box-label">RISE Manufacture</div>
+                            <div class="box-sub">(UP + BLR Packing)</div>
+                        </div>
+                    </div>
+
+                    <!-- Left arrow — center row -->
+                    <div style="grid-column:2;grid-row:1/4;display:flex;align-items:center;justify-content:center;position:relative;">
+                        <!-- vertical connector -->
+                        <div style="position:absolute;left:50%;top:17%;bottom:17%;width:2px;background:#555;transform:translateX(-50%);"></div>
+                        <!-- horizontal arrow at center -->
+                        <div style="position:absolute;left:0;top:50%;width:100%;height:2px;background:#555;transform:translateY(-50%);">
+                            <div style="position:absolute;right:-1px;top:50%;transform:translateY(-50%);border-left:9px solid #555;border-top:5px solid transparent;border-bottom:5px solid transparent;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Channel boxes -->
+                    <div class="flow-channels">
+                        <div class="ch-box ch-d2c">
+                            <div class="ch-name">D2C</div>
+                            <div class="ch-sub">Website + WhatsApp</div>
+                        </div>
+                        <div class="ch-box ch-qcom">
+                            <div class="ch-name">Quick Commerce</div>
+                            <div class="ch-sub">Zepto | Blinkit</div>
+                        </div>
+                        <div class="ch-box ch-amazon">
+                            <div class="ch-name">Amazon</div>
+                            <div class="ch-sub">Marketplace</div>
+                        </div>
+                    </div>
+
+                    <!-- Right arrows -->
+                    <div style="grid-column:4;grid-row:1/4;display:flex;flex-direction:column;padding:16px 0;gap:16px;">
+                        <div class="arrow-r" style="flex:1;"><div class="arrow-h"></div></div>
+                        <div class="arrow-r" style="flex:1;"><div class="arrow-h"></div></div>
+                        <div class="arrow-r" style="flex:1;"><div class="arrow-h"></div></div>
+                    </div>
+
+                    <!-- Target box -->
+                    <div class="flow-target">
+                        <div class="box-target">
+                            <div style="font-size:1.6rem;margin-bottom:6px;">🎯</div>
+                            <div class="box-label">TARGET</div>
+                            <div class="box-sub">Urban BLR Professional</div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Mobile vertical flow -->
+                <div class="flow-mobile">
+                    <div class="flow-mobile-source">
+                        🏭 <strong style="display:block;margin-top:4px;">RISE Manufacture</strong>
+                        <span style="font-size:0.8rem;opacity:0.6;">(UP + BLR Packing)</span>
+                    </div>
+                    <div class="flow-mobile-arrow">↓</div>
+                    <div class="flow-mobile-channels">
+                        <div class="ch-box ch-d2c"><div class="ch-name">D2C</div><div class="ch-sub">Website + WhatsApp</div></div>
+                        <div class="ch-box ch-qcom"><div class="ch-name">Quick Commerce</div><div class="ch-sub">Zepto | Blinkit</div></div>
+                        <div class="ch-box ch-amazon"><div class="ch-name">Amazon</div><div class="ch-sub">Marketplace</div></div>
+                    </div>
+                    <div class="flow-mobile-arrow">↓</div>
+                    <div class="flow-mobile-target">
+                        🎯 <strong style="display:block;margin-top:4px;">TARGET</strong>
+                        <span style="font-size:0.8rem;opacity:0.7;">Urban BLR Professional</span>
+                    </div>
+                </div>
+
+                <!-- Footnote -->
+                <div class="flow-footnote">
+                    <span>📦 <strong>COGS: ₹5/unit</strong></span>
+                    <span>📊 Quick Commerce = <strong>44% of volume</strong> but D2C = <strong>2.7× higher margin</strong></span>
+                    <span>📍 Phase 1 focus: <strong>Bengaluru</strong></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Channel detail cards -->
+        <section style="padding: 0 0 64px;">
+            <div class="container">
+                <h2 style="font-size:1.5rem;font-weight:800;color:var(--text-primary);margin-bottom:8px;">Channel Breakdown</h2>
+                <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:32px;">Performance characteristics and strategic role of each distribution channel</p>
+
+                <div class="ch-cards">
+
+                    <!-- D2C -->
+                    <div class="ch-card card-d2c">
+                        <div class="ch-card-icon">🌐</div>
+                        <div class="ch-card-meta">D2C / Direct</div>
+                        <h3>Website + WhatsApp</h3>
+                        <p>Highest margin channel — no marketplace fee, direct customer relationship. WhatsApp orders drive repeat purchases and referrals from day one.</p>
+                        <div class="ch-card-stat">2.7× higher margin vs. quick commerce</div>
+                    </div>
+
+                    <!-- Quick Commerce -->
+                    <div class="ch-card card-qcom">
+                        <div class="ch-card-icon">⚡</div>
+                        <div class="ch-card-meta">Quick Commerce</div>
+                        <h3>Zepto · Blinkit</h3>
+                        <p>Largest volume driver at 44% of total orders. Captures impulse demand and the post-gym, mid-afternoon hunger window — RISE's sweet spot use case.</p>
+                        <div class="ch-card-stat">44% of total order volume</div>
+                    </div>
+
+                    <!-- Amazon -->
+                    <div class="ch-card card-amazon">
+                        <div class="ch-card-icon">📦</div>
+                        <div class="ch-card-meta">Marketplace</div>
+                        <h3>Amazon India</h3>
+                        <p>Discovery and credibility channel. Captures planned purchases from health-conscious consumers actively searching for protein drinks and healthy snacks.</p>
+                        <div class="ch-card-stat">SEO visibility + review flywheel</div>
+                    </div>
+
+                </div>
+
+                <!-- Insight banner -->
+                <div class="insight-banner">
+                    <div class="insight-kpis">
+                        <div class="insight-kpi">
+                            <div class="kpi-num">2.7×</div>
+                            <div class="kpi-label">D2C Margin<br>vs. Q-Commerce</div>
+                        </div>
+                        <div class="insight-divider"></div>
+                        <div class="insight-kpi">
+                            <div class="kpi-num">44%</div>
+                            <div class="kpi-label">Volume via<br>Quick Commerce</div>
+                        </div>
+                        <div class="insight-divider"></div>
+                        <div class="insight-kpi">
+                            <div class="kpi-num">₹5</div>
+                            <div class="kpi-label">COGS<br>per unit</div>
+                        </div>
+                    </div>
+                    <div class="insight-text">
+                        <h3>The strategic balance</h3>
+                        <p>Quick commerce wins on <strong>volume</strong>, D2C wins on <strong>margin</strong>. RISE scales through quick-commerce discovery, then converts repeat buyers to WhatsApp D2C — maximising LTV while keeping CAC low through referral loops.</p>
+                    </div>
+                </div>
+
+                <!-- Phase roadmap strip -->
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:0;">
+                    <div style="background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-xl);padding:24px 20px;">
+                        <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent-primary);margin-bottom:10px;">Phase 1 · Now</div>
+                        <div style="font-weight:800;font-size:1rem;color:var(--text-primary);margin-bottom:8px;">Bengaluru Launch</div>
+                        <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.6;margin:0;">D2C (Website + WhatsApp) + Zepto/Blinkit in Bengaluru. Validate unit economics and build the referral flywheel.</p>
+                    </div>
+                    <div style="background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-xl);padding:24px 20px;">
+                        <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent-primary);margin-bottom:10px;">Phase 2 · 6–12 mo</div>
+                        <div style="font-weight:800;font-size:1rem;color:var(--text-primary);margin-bottom:8px;">Pan-Metro Expansion</div>
+                        <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.6;margin:0;">Mumbai, Delhi, Hyderabad. Amazon marketplace live. Corporate wellness B2B channel activated with direct sales team.</p>
+                    </div>
+                    <div style="background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-xl);padding:24px 20px;">
+                        <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent-primary);margin-bottom:10px;">Phase 3 · 18–36 mo</div>
+                        <div style="font-weight:800;font-size:1rem;color:var(--text-primary);margin-bottom:8px;">Modern Trade + Export</div>
+                        <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.6;margin:0;">Tier-2 cities via kirana network. Modern trade (Reliance, DMart). UAE/UK NRI diaspora export channel.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="collateral-footer">
+        <p>🌾 RISE — the sattu &nbsp;·&nbsp; Ancient Grain. Relentless Rise.</p>
+        <p style="margin-top:8px;">© 2025 RISE — the sattu. &nbsp;|&nbsp; <a href="artifacts.html" style="color:var(--accent-primary);">Back to Artifacts</a> &nbsp;|&nbsp; <a href="index.html" style="color:var(--accent-primary);">Main Site</a></p>
+    </footer>
+
+    <style>
+        .arrow-r .arrow-h {
+            width: 100%;
+            height: 2px;
+            background: #999;
+            position: relative;
+        }
+        .arrow-r .arrow-h::after {
+            content: '';
+            position: absolute;
+            right: -1px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-left: 8px solid #999;
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid transparent;
+        }
+    </style>
+
+</body>
+</html>
