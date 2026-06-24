@@ -21,12 +21,10 @@ jobs:
             echo "VERCEL_TOKEN is set"
           fi
 
-      - name: Deploy to Vercel
-        uses: amondnet/vercel-action@v20
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-args: '--prod --confirm'
-          working-directory: ./
-          # Optionally provide these as GitHub secrets if you want to pin org/project
-          # vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          # vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+      - name: Deploy to Vercel (CLI)
+        run: |
+          echo "Installing dev dependencies and running vercel CLI"
+          npm ci --no-audit --no-fund
+          npx --yes vercel --token "${{ secrets.VERCEL_TOKEN }}" --prod --confirm
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
