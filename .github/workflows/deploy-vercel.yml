@@ -11,6 +11,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Debug: check VERCEL_TOKEN
+        run: |
+          echo "Checking VERCEL_TOKEN availability"
+          if [ -z "${{ secrets.VERCEL_TOKEN }}" ]; then
+            echo "VERCEL_TOKEN is EMPTY or not set"
+            exit 1
+          else
+            echo "VERCEL_TOKEN is set"
+          fi
+
       - name: Deploy to Vercel
         uses: amondnet/vercel-action@v20
         with:
